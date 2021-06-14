@@ -20,6 +20,6 @@ Pod::Spec.new do |s|
   s.frameworks = 'UIKit', 'Foundation', 'AVFoundation'    #所需的framework,多个用逗号隔开
   s.module_name = 'THTools'                #模块名称
 
-  #s.dependency "KRProgressHUD"    #依赖关系，该项目所依赖的其他库，如果有多个可以写多个 s.dependency
+  s.dependency "KRProgressHUD"    #依赖关系，该项目所依赖的其他库，如果有多个可以写多个 s.dependency
 
 end
