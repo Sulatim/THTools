@@ -16,6 +16,7 @@
 		BE6CCD89267732FA00207B57 /* THTools+Hud.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6CCD7E267732FA00207B57 /* THTools+Hud.swift */; };
 		BE6CCD8B267732FA00207B57 /* THNetHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6CCD80267732FA00207B57 /* THNetHelper.swift */; };
 		BE6CCD8C267732FA00207B57 /* THNibViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6CCD81267732FA00207B57 /* THNibViewBase.swift */; };
+		BE6CCD9026773ECD00207B57 /* THTools.podspec in Resources */ = {isa = PBXBuildFile; fileRef = BE6CCD8F26773ECD00207B57 /* THTools.podspec */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		BE6CCD7E267732FA00207B57 /* THTools+Hud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "THTools+Hud.swift"; sourceTree = "<group>"; };
 		BE6CCD80267732FA00207B57 /* THNetHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = THNetHelper.swift; sourceTree = "<group>"; };
 		BE6CCD81267732FA00207B57 /* THNibViewBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = THNibViewBase.swift; sourceTree = "<group>"; };
+		BE6CCD8F26773ECD00207B57 /* THTools.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = THTools.podspec; sourceTree = "<group>"; };
 		D3814C39882417EC930E2B9E /* Pods-THTools.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THTools.release.xcconfig"; path = "Target Support Files/Pods-THTools/Pods-THTools.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -66,6 +68,7 @@
 		BE6CCD6126771B0E00207B57 = {
 			isa = PBXGroup;
 			children = (
+				BE6CCD8F26773ECD00207B57 /* THTools.podspec */,
 				BE6CCD6D26771B0E00207B57 /* THTools */,
 				BE6CCD6C26771B0E00207B57 /* Products */,
 				305352034D6C356E103EF6B3 /* Pods */,
@@ -84,16 +87,6 @@
 		BE6CCD6D26771B0E00207B57 /* THTools */ = {
 			isa = PBXGroup;
 			children = (
-				BE6CCD76267732D900207B57 /* Helpers */,
-				BE6CCD6E26771B0E00207B57 /* THTools.h */,
-				BE6CCD6F26771B0E00207B57 /* Info.plist */,
-			);
-			path = THTools;
-			sourceTree = "<group>";
-		};
-		BE6CCD76267732D900207B57 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
 				BE6CCD7B267732FA00207B57 /* THTools.swift */,
 				BE6CCD7E267732FA00207B57 /* THTools+Hud.swift */,
 				BE6CCD7C267732FA00207B57 /* THCmsHelper.swift */,
@@ -101,8 +94,10 @@
 				BE6CCD80267732FA00207B57 /* THNetHelper.swift */,
 				BE6CCD81267732FA00207B57 /* THNibViewBase.swift */,
 				BE6CCD77267732FA00207B57 /* THScannerView.swift */,
+				BE6CCD6E26771B0E00207B57 /* THTools.h */,
+				BE6CCD6F26771B0E00207B57 /* Info.plist */,
 			);
-			path = Helpers;
+			path = THTools;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -175,6 +170,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE6CCD9026773ECD00207B57 /* THTools.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
