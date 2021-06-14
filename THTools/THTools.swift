@@ -2,8 +2,13 @@
 import UIKit
 
 public struct THTools {
-    public static var showToolLog = true
-    public static var apiDomain: String = ""
+    public struct ToolConstants {
+        public static var showToolLog = true
+
+        public static var netHelperDefaultDomain: String = ""
+        public static var displayNetHelperPostBody = false
+        public static var displayNetHelperResponse = false
+    }
 
     public static func makeQRCodeImg(qrcode: String?, scale: CGFloat = 10) -> UIImage? {
         guard let qrcode = qrcode else {

@@ -1,10 +1,6 @@
 
 import UIKit
 
-public struct THNetHelper {
-    
-}
-
 private enum THLogger: String, THLoggerProtocol {
 
     case netHelper
@@ -14,34 +10,43 @@ private enum THLogger: String, THLoggerProtocol {
     var name: String { return self.rawValue}
 
     func shouldShowLog() -> Bool {
-        return THTools.showToolLog
+        return THTools.ToolConstants.showToolLog
     }
 }
 
 // MARK: - Net Connector
-public class THNetConector<T: Decodable>: NSObject {
+public class THNetworkHelper<T: Decodable>: NSObject {
 
     private var hostDomain: String {
-        return THTools.apiDomain
+        return THTools.ToolConstants.netHelperDefaultDomain
     }
 
-    var showPostBody = true
-    var showResponse = false
+    public var showPostBody = false
+    public var showResponse = false
     private var strUrl: String = ""
     private var postBody: Any?
 
     public var modifyRequest: ((URLRequest) -> URLRequest)?
     public var checkResultClosure: ((T?) -> (ok: Bool, err: String))?
 
-    init(suffix: String = "", body: Any? = nil) {
+    public init(suffix: String = "", body: Any? = nil) {
         super.init()
         self.strUrl = "\(hostDomain)\(suffix)"
 
         self.postBody = body
+        afterInit()
     }
 
-    init(url: String) {
+    public init(url: String) {
+        super.init()
+
         self.strUrl = url
+        self.afterInit()
+    }
+
+    private func afterInit() {
+        self.showPostBody = THTools.ToolConstants.displayNetHelperPostBody
+        self.showResponse = THTools.ToolConstants.displayNetHelperResponse
     }
 
     private func makeRequest() -> URLRequest? {
