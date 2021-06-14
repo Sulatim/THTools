@@ -4,12 +4,8 @@ import UIKit
 public protocol THNibOwnerLoadable: AnyObject {
 }
 
-// MARK: - Default implmentation
-extension THNibOwnerLoadable {
-}
-
 // MARK: - Supporting methods
-extension THNibOwnerLoadable where Self: UIView {
+public extension THNibOwnerLoadable where Self: UIView {
     
     func loadNibContent() {
         let nib = UINib(nibName: type(of: self).description().components(separatedBy: ".").last!, bundle: nil)

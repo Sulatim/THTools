@@ -10,7 +10,7 @@ public protocol THLoggerProtocol {
     func shouldShowLog() -> Bool
 }
 
-extension THLoggerProtocol {
+public extension THLoggerProtocol {
     func log(_ msg: String, file: String = #file, line: Int = #line ) {
         if self.shouldShowLog() == false {
             return

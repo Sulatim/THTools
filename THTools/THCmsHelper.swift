@@ -30,7 +30,7 @@ class THCmsHelper: NSObject {
 }
 
 extension String {
-    var languageText: String {
+    public var languageText: String {
         return THCmsHelper.shared.getText(key: self)
     }
 }

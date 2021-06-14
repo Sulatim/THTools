@@ -234,17 +234,17 @@ extension THTools {
 }
 
 extension UIView {
-    func changeToFillet(radius: CGFloat) {
+    public func changeToFillet(radius: CGFloat) {
         self.layer.masksToBounds = true
         self.layer.cornerRadius = radius
     }
 
-    func addBorder(color: UIColor, width: CGFloat) {
+    public func addBorder(color: UIColor, width: CGFloat) {
         self.layer.borderWidth = width
         self.layer.borderColor = color.cgColor
     }
 
-    func findSuperView<T: UIView>(type: T.Type) -> T? {
+    public func findSuperView<T: UIView>(type: T.Type) -> T? {
         guard let sView = self.superview else {
             return nil
         }
@@ -257,7 +257,7 @@ extension UIView {
 }
 
 extension UITableViewCell {
-    static func makeEmptyCell() -> UITableViewCell {
+    static public func makeEmptyCell() -> UITableViewCell {
         let cell = UITableViewCell.init()
         cell.backgroundColor = UIColor.clear
         cell.contentView.backgroundColor = UIColor.clear
@@ -268,7 +268,7 @@ extension UITableViewCell {
 }
 
 extension UITableView {
-    func dequeueReusableCell<T: UITableViewCell>(cellType: T.Type, index: IndexPath) -> T? {
+    public func dequeueReusableCell<T: UITableViewCell>(cellType: T.Type, index: IndexPath) -> T? {
         if let cell = self.dequeueReusableCell(withIdentifier: String.init(describing: cellType), for: index) as? T {
             cell.selectionStyle = .none
             return cell
@@ -277,7 +277,7 @@ extension UITableView {
         return nil
     }
 
-    func dequeueReusableCell<T: UITableViewCell>(cellType: T.Type) -> T? {
+    public func dequeueReusableCell<T: UITableViewCell>(cellType: T.Type) -> T? {
         if let cell = self.dequeueReusableCell(withIdentifier: String.init(describing: cellType)) as? T {
             cell.selectionStyle = .none
             return cell
@@ -292,30 +292,30 @@ extension UITableView {
         return nil
     }
 
-    func addRefresher(target: Any, action: Selector) {
+    public func addRefresher(target: Any, action: Selector) {
         let refresher = UIRefreshControl()
         refresher.addTarget(target, action: action, for: .valueChanged)
         self.addSubview(refresher)
         self.refreshControl = refresher
     }
 
-    func changeToAutoCellHeightMode() {
+    public func changeToAutoCellHeightMode() {
         self.estimatedRowHeight = 44
         self.rowHeight = UITableView.automaticDimension
     }
 
-    func changeToAutoHeaderHeightMode() {
+    public func changeToAutoHeaderHeightMode() {
         self.sectionHeaderHeight = UITableView.automaticDimension;
         self.estimatedSectionHeaderHeight = 25;
     }
 }
 
 extension String {
-    var isNumber: Bool {
+    public var isNumber: Bool {
         return !isEmpty && rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil
     }
 
-    func substring(from: Int, to: Int) -> String {
+    public func substring(from: Int, to: Int) -> String {
         let start = index(startIndex, offsetBy: from)
         let end = index(start, offsetBy: to - from)
         return String(self[start ..< end])
@@ -323,14 +323,14 @@ extension String {
 }
 
 extension UIButton {
-    func setImgIcon(iconName: String, color: UIColor? = nil) {
+    public func setImgIcon(iconName: String, color: UIColor? = nil) {
         self.setImage(UIImage(named: iconName)?.withRenderingMode(.alwaysTemplate), for: .normal)
         self.tintColor = color
     }
 }
 
 extension UITextField {
-    func checkIsEmpty() -> Bool {
+    public func checkIsEmpty() -> Bool {
         if self.text?.isEmpty ?? true {
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: {
                 self.becomeFirstResponder()
@@ -343,16 +343,16 @@ extension UITextField {
 }
 
 extension UserDefaults {
-    static var app: UserDefaults {
+    public static var app: UserDefaults {
         return UserDefaults.init(suiteName: Bundle.main.bundleIdentifier) ?? UserDefaults.standard
     }
 
-    func getData<T>(type: T.Type, key: String) -> T? {
+    public func getData<T>(type: T.Type, key: String) -> T? {
         let value = self.object(forKey: key)
         return value as? T
     }
 
-    func setData(_ data: Any?, key: String) {
+    public func setData(_ data: Any?, key: String) {
         self.setValue(data, forKey: key)
         self.synchronize()
     }
@@ -361,7 +361,7 @@ extension UserDefaults {
 }
 
 extension UIImage {
-    func maskWithColor(color: UIColor?) -> UIImage? {
+    public func maskWithColor(color: UIColor?) -> UIImage? {
         guard let color = color else {
             return self
         }
@@ -387,7 +387,7 @@ extension UIImage {
         }
     }
 
-    func colored(_ color: UIColor) -> UIImage {
+    public func colored(_ color: UIColor) -> UIImage {
         let renderer = UIGraphicsImageRenderer(size: size)
         return renderer.image { context in
             color.setFill()
@@ -396,7 +396,7 @@ extension UIImage {
         }
     }
 
-    func crop(withlimitWidth width: CGFloat) -> UIImage? {
+    public func crop(withlimitWidth width: CGFloat) -> UIImage? {
         if width <= 0 {
             return nil
         }
@@ -422,7 +422,7 @@ extension UIImage {
 
 extension UIColor {
     /// hex: "#FFFFFF" or "000000"
-    static func initWithHexString(hex:String) -> UIColor? {
+    public static func initWithHexString(hex:String) -> UIColor? {
         var cString: String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
 
         if cString.hasPrefix("#") {
@@ -444,7 +444,7 @@ extension UIColor {
         )
     }
 
-    static func initWithRgbValue(rgb rgbValue: UInt64, alpha: CGFloat = 1.0) -> UIColor {
+    public static func initWithRgbValue(rgb rgbValue: UInt64, alpha: CGFloat = 1.0) -> UIColor {
         return UIColor(
             red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
             green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
