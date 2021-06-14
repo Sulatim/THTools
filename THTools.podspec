@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "THTools"                #名称
-  s.version      = "1.0.1"                #版本号
+  s.version      = "1.0.2"                #版本号
   s.summary      = "Swift little tools"        #简短介绍
   s.description  = "私有pod測試 It's a swift little tools from TH"
 

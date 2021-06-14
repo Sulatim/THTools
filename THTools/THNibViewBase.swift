@@ -1,7 +1,7 @@
 
 import UIKit
 
-protocol THNibOwnerLoadable: AnyObject {
+public protocol THNibOwnerLoadable: AnyObject {
 }
 
 // MARK: - Default implmentation
@@ -27,7 +27,7 @@ extension THNibOwnerLoadable where Self: UIView {
     }
 }
 
-class THNibViewBase: UIView, THNibOwnerLoadable {
+public class THNibViewBase: UIView, THNibOwnerLoadable {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -44,7 +44,7 @@ class THNibViewBase: UIView, THNibOwnerLoadable {
         self.customerInit()
     }
     
-    func customerInit() {
+    public func customerInit() {
         
     }
 }

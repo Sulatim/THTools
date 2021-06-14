@@ -1,7 +1,7 @@
 
 import Foundation
 
-protocol THLoggerProtocol {
+public protocol THLoggerProtocol {
     var showMillionSec: Bool { get }
     var showFileLine: Bool { get }
     var name: String { get }

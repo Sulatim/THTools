@@ -1,8 +1,8 @@
 
 import UIKit
 
-struct THNetHelper {
-    static var apiDomain: String = ""
+public struct THNetHelper {
+    
 }
 
 private enum THLogger: String, THLoggerProtocol {
@@ -19,10 +19,10 @@ private enum THLogger: String, THLoggerProtocol {
 }
 
 // MARK: - Net Connector
-class THNetConector<T: Decodable>: NSObject {
+public class THNetConector<T: Decodable>: NSObject {
 
     private var hostDomain: String {
-        return THNetHelper.apiDomain
+        return THTools.apiDomain
     }
 
     var showPostBody = true
@@ -30,8 +30,8 @@ class THNetConector<T: Decodable>: NSObject {
     private var strUrl: String = ""
     private var postBody: Any?
 
-    var modifyRequest: ((URLRequest) -> URLRequest)?
-    var checkResultClosure: ((T?) -> (ok: Bool, err: String))?
+    public var modifyRequest: ((URLRequest) -> URLRequest)?
+    public var checkResultClosure: ((T?) -> (ok: Bool, err: String))?
 
     init(suffix: String = "", body: Any? = nil) {
         super.init()
@@ -77,7 +77,7 @@ class THNetConector<T: Decodable>: NSObject {
         return request
     }
 
-    func startRequest(complete: @escaping (Bool, String, T?) -> Void) {
+    public func startRequest(complete: @escaping (Bool, String, T?) -> Void) {
 
         guard let request = makeRequest() else {
             complete(false, "Invalid url!", nil)

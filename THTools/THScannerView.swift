@@ -2,12 +2,12 @@
 import UIKit
 import AVFoundation
 
-protocol THScannerViewDelegate: AnyObject {
+public protocol THScannerViewDelegate: AnyObject {
     func scannerScan(barcode: String) -> Bool
     func needToRequestAuth()
 }
 
-class THScannerView: UIView {
+public class THScannerView: UIView {
 
     weak var delegate: THScannerViewDelegate?
 
@@ -140,7 +140,7 @@ typealias scanInfo = (Date, String)
 
 extension THScannerView: AVCaptureMetadataOutputObjectsDelegate {
 
-    func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+    public func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
 
         var barCodeObj: AVMetadataMachineReadableCodeObject
         var detectionString = ""

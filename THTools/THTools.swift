@@ -1,10 +1,11 @@
 
 import UIKit
 
-struct THTools {
-    static var showToolLog = true
+public struct THTools {
+    public static var showToolLog = true
+    public static var apiDomain: String = ""
 
-    static func makeQRCodeImg(qrcode: String?, scale: CGFloat = 10) -> UIImage? {
+    public static func makeQRCodeImg(qrcode: String?, scale: CGFloat = 10) -> UIImage? {
         guard let qrcode = qrcode else {
             return nil
         }
@@ -20,11 +21,11 @@ struct THTools {
         return UIImage.init(ciImage: qrcodeImage!)
     }
 
-    static func makeVC<T: UIViewController>(type: T.Type, inStoryBoard story: String = "Main") -> T? {
+    public static func makeVC<T: UIViewController>(type: T.Type, inStoryBoard story: String = "Main") -> T? {
         return UIStoryboard.init(name: story, bundle: nil).instantiateViewController(withIdentifier: String.init(describing: type)) as? T
     }
 
-    static func runInMainThread(closure: @escaping () -> Void) {
+    public static func runInMainThread(closure: @escaping () -> Void) {
         if Thread.isMainThread {
             closure()
         } else {
@@ -36,20 +37,20 @@ struct THTools {
 }
 
 extension THTools {
-    struct Validate {
-        static func isEmail(_ email: String?) -> Bool {
+    public struct Validate {
+        public static func isEmail(_ email: String?) -> Bool {
             return verifyRegex(str: email, regex: "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}")
         }
 
-        static func isInputingEmail(_ inputString: String?) -> Bool {
+        public static func isInputingEmail(_ inputString: String?) -> Bool {
             return verifyRegex(str: inputString, regex: "^(([A-Z0-9a-z._%+-]*)|([A-Z0-9a-z._%+-]+@)|([A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]*)|([A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]*))$")
         }
 
-        static func isTwPhone(_ phone: String?) -> Bool {
+        public static func isTwPhone(_ phone: String?) -> Bool {
             return verifyRegex(str: phone, regex: "^09\\d{8}$")
         }
 
-        static func isInputingTwPhone(_ inputString: String?) -> Bool {
+        public static func isInputingTwPhone(_ inputString: String?) -> Bool {
             return verifyRegex(str: inputString, regex: "^0|09|09\\d*$")
         }
 
@@ -65,8 +66,8 @@ extension THTools {
 }
 
 extension THTools {
-    struct Environment {
-        static var isSimulator: Bool {
+    public struct Environment {
+        public static var isSimulator: Bool {
             var result = false
             #if arch(i386) || arch(x86_64)
             result = true
@@ -75,7 +76,7 @@ extension THTools {
             return result
         }
 
-        static func getVersion() -> String {
+        public static func getVersion() -> String {
             let bundle = Bundle.main
             let mainVer = bundle.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
             let buildVer = bundle.infoDictionary?["CFBundleVersion"] as? String ?? ""
@@ -88,7 +89,7 @@ extension THTools {
             return "\(prefix)\(mainVer) (\(buildVer))"
         }
 
-        static func getDeviceID() -> String {
+        public static func getDeviceID() -> String {
             if let deviceID = UserDefaults.app.string(forKey: "deviceID") {
                 return deviceID
             }
@@ -99,15 +100,15 @@ extension THTools {
             return strNew
         }
 
-        static func getOSVersion() -> String {
+        public static func getOSVersion() -> String {
             return "\(UIDevice.current.systemVersion)"
         }
     }
 }
 
 extension THTools {
-    struct Notification {
-        static func registerRemoteNotification() {
+    public struct Notification {
+        public static func registerRemoteNotification() {
             let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
             UNUserNotificationCenter.current().requestAuthorization(
                 options: authOptions,
@@ -123,20 +124,20 @@ extension THTools {
 }
 
 extension THTools {
-    struct DateTime {
-        static var fmtFull: DateFormatter {
+    public struct DateTime {
+        public static var fmtFull: DateFormatter {
             let fmt = DateFormatter()
             fmt.dateFormat = "yyyyMMddHHmmss"
             return fmt
         }
 
-        static var fmtDate: DateFormatter {
+        public static var fmtDate: DateFormatter {
             let fmt = DateFormatter()
             fmt.dateFormat = "yyyyMMdd"
             return fmt
         }
 
-        static func convertHHmmToMin(hhMM: String?) -> Int? {
+        public static func convertHHmmToMin(hhMM: String?) -> Int? {
             guard let start = hhMM else {
                 return nil
             }
@@ -151,7 +152,7 @@ extension THTools {
             return nHS * 60 + nMS
         }
 
-        static func convertMinToHHmm(min: Int?) -> String? {
+        public static func convertMinToHHmm(min: Int?) -> String? {
             guard let min = min else {
                 return nil
             }
@@ -163,7 +164,7 @@ extension THTools {
             return String.init(format: "%02d:%02d", min / 60, min % 60)
         }
 
-        static func convertFullDateStringToDate(_ str: String?) -> Date? {
+        public static func convertFullDateStringToDate(_ str: String?) -> Date? {
             guard let str = str else {
                 return nil
             }
@@ -172,7 +173,7 @@ extension THTools {
             return fmt.date(from: str)
         }
 
-        static func convertDateToFullDateString(date: Date?) -> String? {
+        public static func convertDateToFullDateString(date: Date?) -> String? {
             guard let dat = date else {
                 return nil
             }
@@ -181,7 +182,7 @@ extension THTools {
             return fmt.string(from: dat)
         }
 
-        static func convertDateToMMddHHmm(date: Date?) -> String? {
+        public static func convertDateToMMddHHmm(date: Date?) -> String? {
             guard let dat = date else {
                 return nil
             }
@@ -191,7 +192,7 @@ extension THTools {
             return fmt.string(from: dat)
         }
 
-        static func getFirstDateOfMonth(dat: Date) -> Date {
+        public static func getFirstDateOfMonth(dat: Date) -> Date {
             let fmt = DateFormatter()
             fmt.dateFormat = "yyyyMM"
             let strDate = fmt.string(from: dat) + "01"
@@ -199,13 +200,13 @@ extension THTools {
             return fmt.date(from: strDate) ?? dat
         }
 
-        static func getLastTimeOfMonth(dat: Date) -> Date {
+        public static func getLastTimeOfMonth(dat: Date) -> Date {
             let datNextMonth = addMonth(month: 1, from: dat)
             let datNextMonthFirst = getFirstDateOfMonth(dat: datNextMonth)
             return datNextMonthFirst.addingTimeInterval(-1)
         }
 
-        static func addMonth(month: Int, from: Date) -> Date {
+        public static func addMonth(month: Int, from: Date) -> Date {
             var datComponents = DateComponents()
             datComponents.setValue(month, for: Calendar.Component.month)
             let cal = Calendar.current
@@ -214,7 +215,7 @@ extension THTools {
             return dat
         }
 
-        static func getYearFirstDate(dat: Date = Date()) -> Date {
+        public static func getYearFirstDate(dat: Date = Date()) -> Date {
             let fmt = DateFormatter()
             fmt.dateFormat = "yyyy"
             let str = fmt.string(from: dat) + "0101"
@@ -222,7 +223,7 @@ extension THTools {
             return fmt.date(from: str) ?? dat
         }
 
-        static func getYearLastTime(dat: Date = Date()) -> Date {
+        public static func getYearLastTime(dat: Date = Date()) -> Date {
             let fmt = DateFormatter()
             fmt.dateFormat = "yyyy"
             let str = fmt.string(from: dat) + "1231235959"

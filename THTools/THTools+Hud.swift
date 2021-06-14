@@ -3,7 +3,7 @@ import Foundation
 import KRProgressHUD
 
 extension THTools.Validate {
-    static func txtIsEmpty(txt: UITextField, msg: String) -> Bool {
+    public static func txtIsEmpty(txt: UITextField, msg: String) -> Bool {
         if txt.text == nil || txt.text == "" {
             KRProgressHUD.showError(msg) {
                 txt.becomeFirstResponder()
@@ -15,7 +15,7 @@ extension THTools.Validate {
         return false
     }
 
-    static func batchCheckTxtHasEmpty(_ checkList: [(txt: UITextField, msg: String)]) -> Bool {
+    public static func batchCheckTxtHasEmpty(_ checkList: [(txt: UITextField, msg: String)]) -> Bool {
         for item in checkList {
             if txtIsEmpty(txt: item.txt, msg: item.msg) {
                 return true
@@ -27,7 +27,7 @@ extension THTools.Validate {
 }
 
 extension KRProgressHUD {
-    static func showError(_ msg: String, completion: (() -> Void)?) {
+    public static func showError(_ msg: String, completion: (() -> Void)?) {
         KRProgressHUD.showError(withMessage: msg)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             KRProgressHUD.dismiss {
@@ -36,7 +36,7 @@ extension KRProgressHUD {
         }
     }
 
-    static func showSuccess(_ msg: String?, completion: (() -> Void)?) {
+    public static func showSuccess(_ msg: String?, completion: (() -> Void)?) {
         KRProgressHUD.showSuccess(withMessage: msg)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             KRProgressHUD.dismiss {
