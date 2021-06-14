@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "THTools"                #名称
-  s.version      = "1.0.2"                #版本号
+  s.version      = "1.0.3"                #版本号
   s.summary      = "Swift little tools"        #简短介绍
   s.description  = "私有pod測試 It's a swift little tools from TH"
 
@@ -20,6 +20,6 @@ Pod::Spec.new do |s|
   s.frameworks = 'UIKit', 'Foundation', 'AVFoundation'    #所需的framework,多个用逗号隔开
   s.module_name = 'THTools'                #模块名称
 
-  s.dependency "KRProgressHUD"    #依赖关系，该项目所依赖的其他库，如果有多个可以写多个 s.dependency
+  #s.dependency "KRProgressHUD"    #依赖关系，该项目所依赖的其他库，如果有多个可以写多个 s.dependency
 
 end
