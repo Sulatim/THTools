@@ -22,6 +22,8 @@ public class THScannerView: UIView {
 
     var vDetect = UIView.init()
 
+    public var detectBarcodeTypes: [AVMetadataObject.ObjectType] = [.qr]
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -119,7 +121,7 @@ public class THScannerView: UIView {
         }
 
         // 条码类型 AVMetadataObjectTypeQRCode
-        self.output?.metadataObjectTypes = [.qr]
+        self.output?.metadataObjectTypes = self.detectBarcodeTypes
 
         self.preview = AVCaptureVideoPreviewLayer.init(session: self.session!)
         self.preview?.videoGravity = .resizeAspectFill
@@ -145,7 +147,7 @@ extension THScannerView: AVCaptureMetadataOutputObjectsDelegate {
         var barCodeObj: AVMetadataMachineReadableCodeObject
         var detectionString = ""
         for metadata in metadataObjects {
-            if metadata.type != .qr {
+            if self.detectBarcodeTypes.contains(metadata.type) == false {
                 continue
             }
 
