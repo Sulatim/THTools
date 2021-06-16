@@ -33,3 +33,26 @@ public extension THLoggerProtocol {
         return true
     }
 }
+
+enum THLogger: String, THLoggerProtocol {
+
+    case netHelper
+    case scanner
+    case notification
+
+    var showMillionSec: Bool { return false }
+    var showFileLine: Bool { return false }
+    var name: String { return self.rawValue}
+
+    func shouldShowLog() -> Bool {
+        if THTools.ToolConstants.Logger.on == false {
+            return false
+        }
+
+        switch self {
+        case .netHelper: return THTools.ToolConstants.Logger.netHelper
+        case .scanner: return THTools.ToolConstants.Logger.scanner
+        case .notification: return THTools.ToolConstants.Logger.notificaton
+        }
+    }
+}

@@ -181,9 +181,9 @@ extension THScannerView: AVCaptureMetadataOutputObjectsDelegate {
                 if detectionString == info.1 && interval < 1 {
                     return
                 }
-                print(interval)
             }
-            print(detectionString)
+            THLogger.scanner.log("Detect: \(detectionString)")
+            THLogger.scanner.log("Type: \(metadata.type)")
 
             self.lastScanInfo = (Date(), detectionString)
 

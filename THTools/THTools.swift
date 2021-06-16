@@ -3,11 +3,18 @@ import UIKit
 
 public struct THTools {
     public struct ToolConstants {
-        public static var showToolLog = true
+        public struct Logger {
+            public static var on = false
+
+            public static var nhPostBody = false
+            public static var nhResponse = false
+
+            public static var netHelper = true
+            public static var scanner = true
+            public static var notificaton = true
+        }
 
         public static var netHelperDefaultDomain: String = ""
-        public static var displayNetHelperPostBody = false
-        public static var displayNetHelperResponse = false
     }
 
     public static func makeQRCodeImg(qrcode: String?, scale: CGFloat = 10) -> UIImage? {
@@ -119,8 +126,9 @@ extension THTools {
                 options: authOptions,
                 completionHandler: { success, error in
                     print(success)
+                    THLogger.notification.log("register result: \(success)")
                     if let err = error {
-                        print(err.localizedDescription)
+                        THLogger.notification.log("register error: \(err.localizedDescription)")
                     }
             })
             UIApplication.shared.registerForRemoteNotifications()

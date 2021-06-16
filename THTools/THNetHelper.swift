@@ -1,19 +1,6 @@
 
 import UIKit
 
-private enum THLogger: String, THLoggerProtocol {
-
-    case netHelper
-
-    var showMillionSec: Bool { return true }
-    var showFileLine: Bool { return false }
-    var name: String { return self.rawValue}
-
-    func shouldShowLog() -> Bool {
-        return THTools.ToolConstants.showToolLog
-    }
-}
-
 // MARK: - Net Connector
 public class THNetworkHelper<T: Decodable>: NSObject {
 
@@ -45,8 +32,8 @@ public class THNetworkHelper<T: Decodable>: NSObject {
     }
 
     private func afterInit() {
-        self.showPostBody = THTools.ToolConstants.displayNetHelperPostBody
-        self.showResponse = THTools.ToolConstants.displayNetHelperResponse
+        self.showPostBody = THTools.ToolConstants.Logger.nhPostBody
+        self.showResponse = THTools.ToolConstants.Logger.nhResponse
     }
 
     private func makeRequest() -> URLRequest? {
