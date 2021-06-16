@@ -3,8 +3,29 @@ import UIKit
 import AVFoundation
 
 public protocol THScannerViewDelegate: AnyObject {
-    func scannerScan(barcode: String) -> Bool
+    func scannerSouldKeepScanWhenDetectBarcode(_ barcode: String) -> Bool
     func needToRequestAuth()
+}
+
+public extension THScannerViewDelegate where Self: UIViewController {
+    func needToRequestAuth() {
+        let alert = UIAlertController(
+            title: nil,
+            message: "需要相機權限來進行掃描",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "去設定開啟", style: .cancel, handler: { (alert) -> Void in
+
+            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
+        }))
+
+        alert.addAction(UIAlertAction(title: "取消", style: .default, handler: { (alert) -> Void in
+
+            self.navigationController?.popViewController(animated: true)
+        }))
+
+        present(alert, animated: true, completion: nil)
+    }
 }
 
 public class THScannerView: UIView {
@@ -166,10 +187,8 @@ extension THScannerView: AVCaptureMetadataOutputObjectsDelegate {
 
             self.lastScanInfo = (Date(), detectionString)
 
-            if let dele = self.delegate {
-                if dele.scannerScan(barcode: detectionString) == false {
-                    self.stop()
-                }
+            if self.delegate?.scannerSouldKeepScanWhenDetectBarcode(detectionString) == false {
+                self.stop()
             }
 
             return
