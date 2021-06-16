@@ -79,7 +79,7 @@ public class THScannerView: UIView {
         return
     }
 
-    func start() {
+    public func start() {
 
         if THTools.Environment.isSimulator {
             self.backgroundColor = UIColor.black
@@ -107,7 +107,7 @@ public class THScannerView: UIView {
         }
     }
 
-    func stop() {
+    public func stop() {
         self.session?.stopRunning()
     }
 
