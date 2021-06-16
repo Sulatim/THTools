@@ -80,7 +80,7 @@ public class THScannerView: UIView {
     }
 
     public func start() {
-
+        self.vDetect.frame = CGRect.zero
         if THTools.Environment.isSimulator {
             self.backgroundColor = UIColor.black
             return
@@ -165,14 +165,16 @@ extension THScannerView: AVCaptureMetadataOutputObjectsDelegate {
 
     public func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
 
-        var barCodeObj: AVMetadataMachineReadableCodeObject
         var detectionString = ""
         for metadata in metadataObjects {
             if self.detectBarcodeTypes.contains(metadata.type) == false {
                 continue
             }
 
-            barCodeObj = preview?.transformedMetadataObject(for: metadata) as! AVMetadataMachineReadableCodeObject
+            guard let barCodeObj = preview?.transformedMetadataObject(for: metadata) as? AVMetadataMachineReadableCodeObject else {
+                continue
+            }
+
             detectionString = barCodeObj.stringValue ?? ""
 
             if let info = self.lastScanInfo {
@@ -182,12 +184,14 @@ extension THScannerView: AVCaptureMetadataOutputObjectsDelegate {
                     return
                 }
             }
-            THLogger.scanner.log("Detect: \(detectionString)")
-            THLogger.scanner.log("Type: \(metadata.type)")
+            THLogger.scanner.log("Detect: \(detectionString), Type: \(metadata.type)")
 
             self.lastScanInfo = (Date(), detectionString)
 
             if self.delegate?.scannerSouldKeepScanWhenDetectBarcode(detectionString) == false {
+//                self.vDetect.frame = CGRect.init(x: barCodeObj.bounds.minY - barCodeObj.bounds.height, y: barCodeObj.bounds.minX, width: barCodeObj.bounds.height, height: barCodeObj.bounds.width)
+//                self.bringSubviewToFront(self.vDetect)
+//                THLogger.scanner.log("\(barCodeObj.bounds)")
                 self.stop()
             }
 
