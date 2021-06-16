@@ -9,7 +9,7 @@ public protocol THScannerViewDelegate: AnyObject {
 
 public class THScannerView: UIView {
 
-    weak var delegate: THScannerViewDelegate?
+    public weak var delegate: THScannerViewDelegate?
 
     var bAnimationDown = false
     var fScanerWidth: CGFloat = 0
