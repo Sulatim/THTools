@@ -42,6 +42,7 @@ public class THScannerView: UIView {
     var preview: AVCaptureVideoPreviewLayer?
 
     var vDetect = UIView.init()
+    private var lastErrorBarcode: String?
 
     public var detectBarcodeTypes: [AVMetadataObject.ObjectType] = [.qr]
 
@@ -75,7 +76,7 @@ public class THScannerView: UIView {
 
     @objc func orientationChange(notification: NSNotification) {
 
-        self.preview?.connection?.videoOrientation = .landscapeRight
+        self.preview?.connection?.videoOrientation = .portrait
         return
     }
 
@@ -146,8 +147,8 @@ public class THScannerView: UIView {
 
         self.preview = AVCaptureVideoPreviewLayer.init(session: self.session!)
         self.preview?.videoGravity = .resizeAspectFill
-        preview?.transform = CATransform3DMakeRotation(CGFloat(Double.pi / 2), 0, 0, 1)
-        preview?.connection?.videoOrientation = .landscapeRight
+//        preview?.transform = CATransform3DMakeRotation(CGFloat(Double.pi / 2), 0, 0, 1)
+        preview?.connection?.videoOrientation = .portrait
         preview?.frame = self.bounds
 
         self.layer.addSublayer(self.preview!)
@@ -184,15 +185,30 @@ extension THScannerView: AVCaptureMetadataOutputObjectsDelegate {
                     return
                 }
             }
+
+            if barCodeObj.bounds.maxY < 0 || barCodeObj.bounds.maxX < 0 || barCodeObj.bounds.minX > self.bounds.width || barCodeObj.bounds.minY > self.bounds.height {
+                if let last = lastErrorBarcode, last == detectionString {
+                    continue
+                }
+                lastErrorBarcode = detectionString
+                THLogger.scanner.log("skip scan, out of bounds \(barCodeObj.bounds)")
+                continue
+            }
+
             THLogger.scanner.log("Detect: \(detectionString), Type: \(metadata.type)")
+            lastErrorBarcode = nil
 
             self.lastScanInfo = (Date(), detectionString)
+            self.vDetect.frame = barCodeObj.bounds
+            self.bringSubviewToFront(self.vDetect)
+            THLogger.scanner.log("\(barCodeObj.bounds)")
 
             if self.delegate?.scannerSouldKeepScanWhenDetectBarcode(detectionString) == false {
-//                self.vDetect.frame = CGRect.init(x: barCodeObj.bounds.minY - barCodeObj.bounds.height, y: barCodeObj.bounds.minX, width: barCodeObj.bounds.height, height: barCodeObj.bounds.width)
-//                self.bringSubviewToFront(self.vDetect)
-//                THLogger.scanner.log("\(barCodeObj.bounds)")
                 self.stop()
+            } else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    self.vDetect.frame = CGRect.zero
+                }
             }
 
             return
