@@ -40,7 +40,7 @@ open class THNibViewBase: UIView, THNibOwnerLoadable {
         self.customerInit()
     }
     
-    public func customerInit() {
+    open func customerInit() {
         
     }
 }
