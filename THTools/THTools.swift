@@ -243,6 +243,36 @@ extension THTools {
             fmt.dateFormat = "yyyyMMddHHmmss"
             return fmt.date(from: str) ?? dat
         }
+
+        public static func getDefaultBirthday(age: Int = 18) -> Date {
+            let fmt = DateFormatter()
+            fmt.dateFormat = "MMdd"
+            let strMMdd = fmt.string(from: Date())
+
+            fmt.dateFormat = "yyyy"
+            let strYear = fmt.string(from: Date())
+
+            fmt.dateFormat = "yyyyMMdd"
+            var datTarget = fmt.date(from: "\((Int.init(strYear) ?? 0) - age)\(strMMdd)")
+            if datTarget == nil, strMMdd == "0229" {
+                datTarget = fmt.date(from: "\((Int.init(strYear) ?? 0) - age)0228")
+            }
+            if datTarget == nil {
+                datTarget = Date()
+            }
+
+            return datTarget ?? Date()
+        }
+
+        public static func getAgeFromBirthday(_ birthday: Date?) -> Int? {
+            guard let birthday = birthday else {
+                return nil
+            }
+
+            let ageComponents = Calendar.current.dateComponents([.year], from: birthday, to: Date())
+            return ageComponents.year
+        }
+
     }
 }
 
@@ -250,6 +280,11 @@ extension UIView {
     public func changeToFillet(radius: CGFloat) {
         self.layer.masksToBounds = true
         self.layer.cornerRadius = radius
+    }
+
+    public func changeToFillet() {
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = self.frame.height / 2
     }
 
     public func addBorder(color: UIColor, width: CGFloat) {
@@ -464,5 +499,15 @@ extension UIColor {
             blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
             alpha: alpha
         )
+    }
+}
+
+extension UINavigationController {
+    public func pop2Page() {
+        let vcs = self.viewControllers
+        if vcs.count >= 3 {
+            let vc = self.viewControllers[vcs.count - 3]
+            self.popToViewController(vc, animated: true)
+        }
     }
 }
