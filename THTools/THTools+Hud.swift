@@ -44,4 +44,13 @@ extension KRProgressHUD {
             }
         }
     }
+
+    public static func showSuccess(completion: (() -> Void)?) {
+        KRProgressHUD.showSuccess()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            KRProgressHUD.dismiss {
+                completion?()
+            }
+        }
+    }
 }
