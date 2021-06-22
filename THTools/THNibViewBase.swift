@@ -24,7 +24,7 @@ public extension THNibOwnerLoadable where Self: UIView {
 }
 
 open class THNibViewBase: UIView, THNibOwnerLoadable {
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         
         self.loadNibContent()
