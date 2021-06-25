@@ -162,19 +162,19 @@ extension THTools {
 }
 
 extension Date {
-    func addMonth(_ month: Int) -> Date {
+    public func addMonth(_ month: Int) -> Date {
         var dateComponent = DateComponents()
         dateComponent.month = month
         return Calendar.current.date(byAdding: dateComponent, to: self) ?? Date()
     }
 
-    func isSameMonth(with dat: Date) -> Bool {
+    public func isSameMonth(with dat: Date) -> Bool {
         let fmtMonth = DateFormatter()
         fmtMonth.dateFormat = "yyyyMM"
         return fmtMonth.string(from: dat) == fmtMonth.string(from: self)
     }
 
-    func getDate() -> Date {
+    public func getDate() -> Date {
         let fmt = THTools.DateTime.fmtDate
         return fmt.date(from: fmt.string(from: self)) ?? self
     }
