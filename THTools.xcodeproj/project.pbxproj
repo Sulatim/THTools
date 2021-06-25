@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8C1ACEF2F3D531DCFB43B493 /* Pods_THTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0027CBC43C662A15B35E73C0 /* Pods_THTools.framework */; };
+		BE1568EA268608450036E053 /* THTools+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1568E9268608450036E053 /* THTools+Date.swift */; };
 		BE6CCD7026771B0E00207B57 /* THTools.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6CCD6E26771B0E00207B57 /* THTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE6CCD82267732FA00207B57 /* THScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6CCD77267732FA00207B57 /* THScannerView.swift */; };
 		BE6CCD83267732FA00207B57 /* THLoggerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6CCD78267732FA00207B57 /* THLoggerProtocol.swift */; };
@@ -23,6 +24,7 @@
 /* Begin PBXFileReference section */
 		0027CBC43C662A15B35E73C0 /* Pods_THTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_THTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FC9592A11A9309E2E7C8DC2 /* Pods-THTools.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THTools.debug.xcconfig"; path = "Target Support Files/Pods-THTools/Pods-THTools.debug.xcconfig"; sourceTree = "<group>"; };
+		BE1568E9268608450036E053 /* THTools+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "THTools+Date.swift"; sourceTree = "<group>"; };
 		BE6CCD6B26771B0E00207B57 /* THTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = THTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE6CCD6E26771B0E00207B57 /* THTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THTools.h; sourceTree = "<group>"; };
 		BE6CCD6F26771B0E00207B57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 			children = (
 				BE6CCD7B267732FA00207B57 /* THTools.swift */,
 				BE6CCD7E267732FA00207B57 /* THTools+Hud.swift */,
+				BE1568E9268608450036E053 /* THTools+Date.swift */,
 				BE6CCD7C267732FA00207B57 /* THCmsHelper.swift */,
 				BE6CCD78267732FA00207B57 /* THLoggerProtocol.swift */,
 				BE6CCD80267732FA00207B57 /* THNetHelper.swift */,
@@ -213,6 +216,7 @@
 				BE6CCD86267732FA00207B57 /* THTools.swift in Sources */,
 				BE6CCD82267732FA00207B57 /* THScannerView.swift in Sources */,
 				BE6CCD83267732FA00207B57 /* THLoggerProtocol.swift in Sources */,
+				BE1568EA268608450036E053 /* THTools+Date.swift in Sources */,
 				BE6CCD89267732FA00207B57 /* THTools+Hud.swift in Sources */,
 				BE6CCD8B267732FA00207B57 /* THNetHelper.swift in Sources */,
 				BE6CCD8C267732FA00207B57 /* THNibViewBase.swift in Sources */,
