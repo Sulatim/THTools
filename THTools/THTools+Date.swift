@@ -175,9 +175,13 @@ extension Date {
     }
 
     public func isSameMonth(with dat: Date) -> Bool {
-        let fmtMonth = DateFormatter()
-        fmtMonth.dateFormat = "yyyyMM"
-        return fmtMonth.string(from: dat) == fmtMonth.string(from: self)
+        let fmt = THTools.DateTime.fmtMonth
+        return fmt.string(from: dat) == fmt.string(from: self)
+    }
+
+    public func isSameDate(with dat: Date) -> Bool {
+        let fmt = THTools.DateTime.fmtDate
+        return fmt.string(from: dat) == fmt.string(from: self)
     }
 
     public func getDate() -> Date {
