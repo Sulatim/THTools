@@ -168,6 +168,12 @@ extension Date {
         return Calendar.current.date(byAdding: dateComponent, to: self) ?? Date()
     }
 
+    public func addDay(_ day: Int) -> Date {
+        var dateComponent = DateComponents()
+        dateComponent.day = day
+        return Calendar.current.date(byAdding: dateComponent, to: self) ?? Date()
+    }
+
     public func isSameMonth(with dat: Date) -> Bool {
         let fmtMonth = DateFormatter()
         fmtMonth.dateFormat = "yyyyMM"
