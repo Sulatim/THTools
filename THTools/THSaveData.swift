@@ -11,7 +11,7 @@ public class THSaveData<T> {
     private var defaultValue: T
     let saveKey: String
 
-    init(key: String, defValue: T) {
+    public init(key: String, defValue: T) {
         self.saveKey = key
         self.defaultValue = defValue
     }
