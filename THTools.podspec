@@ -15,9 +15,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true                    #是否使用ARC
 
   s.swift_versions = "5.0"
-  s.source_files  = "THTools.xcframework"    #OC可以使用类似这样"Classes/**/*.{h,m}"
-
-  s.frameworks = 'UIKit', 'Foundation', 'AVFoundation'    #所需的framework,多个用逗号隔开
+  s.vendored_frameworks = 'THTools.xcframework'
   s.module_name = 'THTools'                #模块名称
 
 end
