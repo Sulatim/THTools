@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8C1ACEF2F3D531DCFB43B493 /* Pods_THTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0027CBC43C662A15B35E73C0 /* Pods_THTools.framework */; };
 		BE07F51E268EEF5A00399359 /* THTools+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE07F51D268EEF5A00399359 /* THTools+Gif.swift */; };
+		BE07F526268F196D00399359 /* THSaveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE07F525268F196D00399359 /* THSaveData.swift */; };
 		BE1568EA268608450036E053 /* THTools+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1568E9268608450036E053 /* THTools+Date.swift */; };
 		BE6CCD7026771B0E00207B57 /* THTools.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6CCD6E26771B0E00207B57 /* THTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE6CCD82267732FA00207B57 /* THScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6CCD77267732FA00207B57 /* THScannerView.swift */; };
@@ -26,6 +27,7 @@
 		0027CBC43C662A15B35E73C0 /* Pods_THTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_THTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FC9592A11A9309E2E7C8DC2 /* Pods-THTools.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THTools.debug.xcconfig"; path = "Target Support Files/Pods-THTools/Pods-THTools.debug.xcconfig"; sourceTree = "<group>"; };
 		BE07F51D268EEF5A00399359 /* THTools+Gif.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "THTools+Gif.swift"; sourceTree = "<group>"; };
+		BE07F525268F196D00399359 /* THSaveData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = THSaveData.swift; sourceTree = "<group>"; };
 		BE1568E9268608450036E053 /* THTools+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "THTools+Date.swift"; sourceTree = "<group>"; };
 		BE6CCD6B26771B0E00207B57 /* THTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = THTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE6CCD6E26771B0E00207B57 /* THTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THTools.h; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				BE6CCD80267732FA00207B57 /* THNetHelper.swift */,
 				BE6CCD81267732FA00207B57 /* THNibViewBase.swift */,
 				BE6CCD77267732FA00207B57 /* THScannerView.swift */,
+				BE07F525268F196D00399359 /* THSaveData.swift */,
 				BE6CCD6E26771B0E00207B57 /* THTools.h */,
 				BE6CCD6F26771B0E00207B57 /* Info.plist */,
 			);
@@ -224,6 +227,7 @@
 				BE6CCD89267732FA00207B57 /* THTools+Hud.swift in Sources */,
 				BE6CCD8B267732FA00207B57 /* THNetHelper.swift in Sources */,
 				BE6CCD8C267732FA00207B57 /* THNibViewBase.swift in Sources */,
+				BE07F526268F196D00399359 /* THSaveData.swift in Sources */,
 				BE6CCD87267732FA00207B57 /* THCmsHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
