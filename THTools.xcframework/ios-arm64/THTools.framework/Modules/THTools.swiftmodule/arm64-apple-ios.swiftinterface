@@ -1,0 +1,198 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.4 (swiftlang-1205.0.26.9 clang-1205.0.19.55)
+// swift-module-flags: -target arm64-apple-ios14.5 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name THTools
+import AVFoundation
+import Foundation
+import ImageIO
+import Swift
+@_exported import THTools
+import UIKit
+public class THSaveData<T> {
+  public init(key: Swift.String, defValue: T)
+  public var value: T {
+    get
+    set(newValue)
+  }
+  @objc deinit
+}
+public protocol THNibOwnerLoadable : AnyObject {
+}
+extension THNibOwnerLoadable where Self : UIKit.UIView {
+  public func loadNibContent()
+}
+@objc @_inheritsConvenienceInitializers open class THNibViewBase : UIKit.UIView, THNibOwnerLoadable {
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+  open func customerInit()
+  @objc deinit
+}
+public protocol THLoggerProtocol {
+  var showMillionSec: Swift.Bool { get }
+  var showFileLine: Swift.Bool { get }
+  var name: Swift.String { get }
+  func log(_ msg: Swift.String, file: Swift.String, line: Swift.Int)
+  func shouldShowLog() -> Swift.Bool
+}
+extension THLoggerProtocol {
+  public func log(_ msg: Swift.String, file: Swift.String = #file, line: Swift.Int = #line)
+  public func shouldShowLog() -> Swift.Bool
+}
+extension UIImage {
+  public class func gifImageWithData(_ data: Foundation.Data) -> UIKit.UIImage?
+  public class func gifImageWithURL(_ gifUrl: Swift.String) -> UIKit.UIImage?
+  public class func gifImageWithName(_ name: Swift.String) -> UIKit.UIImage?
+}
+extension String {
+  public var languageText: Swift.String {
+    get
+  }
+}
+public struct THTools {
+  public struct ToolConstants {
+    public struct Logger {
+      public static var on: Swift.Bool
+      public static var nhPostBody: Swift.Bool
+      public static var nhResponse: Swift.Bool
+      public static var netHelper: Swift.Bool
+      public static var scanner: Swift.Bool
+      public static var notificaton: Swift.Bool
+    }
+    public static var netHelperDefaultDomain: Swift.String
+  }
+  public static func makeQRCodeImg(qrcode: Swift.String?, scale: CoreGraphics.CGFloat = 10) -> UIKit.UIImage?
+  public static func makeVC<T>(type: T.Type, inStoryBoard story: Swift.String = "Main") -> T? where T : UIKit.UIViewController
+  public static func runInMainThread(closure: @escaping () -> Swift.Void)
+}
+extension THTools {
+  public struct Validate {
+    public static func isEmail(_ email: Swift.String?) -> Swift.Bool
+    public static func isInputingEmail(_ inputString: Swift.String?) -> Swift.Bool
+    public static func isTwPhone(_ phone: Swift.String?) -> Swift.Bool
+    public static func isInputingTwPhone(_ inputString: Swift.String?) -> Swift.Bool
+  }
+}
+extension THTools {
+  public struct Environment {
+    public static var isSimulator: Swift.Bool {
+      get
+    }
+    public static func getVersion() -> Swift.String
+    public static func getDeviceID() -> Swift.String
+    public static func getOSVersion() -> Swift.String
+  }
+}
+extension THTools {
+  public struct Notification {
+    public static func registerRemoteNotification()
+  }
+}
+extension UIView {
+  public func changeToFillet(radius: CoreGraphics.CGFloat)
+  public func changeToFillet()
+  public func addBorder(color: UIKit.UIColor, width: CoreGraphics.CGFloat)
+  public func findSuperView<T>(type: T.Type) -> T? where T : UIKit.UIView
+}
+extension UITableViewCell {
+  public static func makeEmptyCell() -> UIKit.UITableViewCell
+}
+extension UITableView {
+  public func dequeueReusableCell<T>(cellType: T.Type, index: Foundation.IndexPath) -> T? where T : UIKit.UITableViewCell
+  public func dequeueReusableCell<T>(cellType: T.Type) -> T? where T : UIKit.UITableViewCell
+  public func addRefresher(target: Any, action: ObjectiveC.Selector)
+  public func changeToAutoCellHeightMode()
+  public func changeToAutoHeaderHeightMode()
+}
+extension String {
+  public var isNumber: Swift.Bool {
+    get
+  }
+  public func substring(from: Swift.Int, to: Swift.Int) -> Swift.String
+}
+extension UIButton {
+  public func setImgIcon(iconName: Swift.String, color: UIKit.UIColor? = nil)
+}
+extension UITextField {
+  public func checkIsEmpty() -> Swift.Bool
+}
+extension UserDefaults {
+  public static var app: Foundation.UserDefaults {
+    get
+  }
+  public func getData<T>(type: T.Type, key: Swift.String) -> T?
+  public func setData(_ data: Any?, key: Swift.String)
+}
+extension UIImage {
+  public func maskWithColor(color: UIKit.UIColor?) -> UIKit.UIImage?
+  public func colored(_ color: UIKit.UIColor) -> UIKit.UIImage
+  public func crop(withlimitWidth width: CoreGraphics.CGFloat) -> UIKit.UIImage?
+}
+extension UIColor {
+  public static func initWithHexString(hex: Swift.String) -> UIKit.UIColor?
+  public static func initWithRgbValue(rgb rgbValue: Swift.UInt64, alpha: CoreGraphics.CGFloat = 1.0) -> UIKit.UIColor
+}
+extension UINavigationController {
+  public func pop2Page()
+  public func popPages(page: Swift.Int)
+  public func popToType<T>(type: T.Type) where T : UIKit.UIViewController
+}
+extension THTools {
+  public struct DateTime {
+    public static var fmtFull: Foundation.DateFormatter {
+      get
+    }
+    public static var fmtDate: Foundation.DateFormatter {
+      get
+    }
+    public static var fmtMonth: Foundation.DateFormatter {
+      get
+    }
+    public static func convertHHmmToMin(hhMM: Swift.String?) -> Swift.Int?
+    public static func convertMinToHHmm(min: Swift.Int?) -> Swift.String?
+    public static func convertFullDateStringToDate(_ str: Swift.String?) -> Foundation.Date?
+    public static func convertDateToFullDateString(date: Foundation.Date?) -> Swift.String?
+    public static func convertDateToMMddHHmm(date: Foundation.Date?) -> Swift.String?
+    public static func getFirstDateOfMonth(dat: Foundation.Date) -> Foundation.Date
+    public static func getLastTimeOfMonth(dat: Foundation.Date) -> Foundation.Date
+    public static func getCalendarFirst(dat: Foundation.Date, firstWeekDay: Swift.Int = 1) -> Foundation.Date?
+    public static func addMonth(month: Swift.Int, from: Foundation.Date) -> Foundation.Date
+    public static func getYearFirstDate(dat: Foundation.Date = Date()) -> Foundation.Date
+    public static func getYearLastTime(dat: Foundation.Date = Date()) -> Foundation.Date
+    public static func getDefaultBirthday(age: Swift.Int = 18) -> Foundation.Date
+    public static func getAgeFromBirthday(_ birthday: Foundation.Date?) -> Swift.Int?
+  }
+}
+extension Date {
+  public func addMonth(_ month: Swift.Int) -> Foundation.Date
+  public func addDay(_ day: Swift.Int) -> Foundation.Date
+  public func isSameMonth(with dat: Foundation.Date) -> Swift.Bool
+  public func isSameDate(with dat: Foundation.Date) -> Swift.Bool
+  public func getDate() -> Foundation.Date
+}
+public protocol THScannerViewDelegate : AnyObject {
+  func scannerSouldKeepScanWhenDetectBarcode(_ barcode: Swift.String) -> Swift.Bool
+  func needToRequestAuth()
+}
+extension THScannerViewDelegate where Self : UIKit.UIViewController {
+  public func needToRequestAuth()
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class THScannerView : UIKit.UIView {
+  weak public var delegate: THScannerViewDelegate?
+  public var detectBarcodeTypes: [AVFoundation.AVMetadataObject.ObjectType]
+  public func start()
+  public func stop()
+  @objc deinit
+}
+extension THScannerView : AVFoundation.AVCaptureMetadataOutputObjectsDelegate {
+  @objc dynamic public func metadataOutput(_ output: AVFoundation.AVCaptureMetadataOutput, didOutput metadataObjects: [AVFoundation.AVMetadataObject], from connection: AVFoundation.AVCaptureConnection)
+}
+public class THNetworkHelper<T> : ObjectiveC.NSObject where T : Swift.Decodable {
+  public var showPostBody: Swift.Bool
+  public var showResponse: Swift.Bool
+  public var modifyRequest: ((Foundation.URLRequest) -> Foundation.URLRequest)?
+  public var checkResultClosure: ((T?) -> (ok: Swift.Bool, err: Swift.String))?
+  public init(suffix: Swift.String = "", body: Any? = nil)
+  public init(url: Swift.String)
+  public func startRequest(complete: @escaping (Swift.Bool, Swift.String, T?) -> Swift.Void)
+  @objc override dynamic public init()
+  @objc deinit
+}

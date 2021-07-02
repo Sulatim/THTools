@@ -1,0 +1,11 @@
+framework module THTools {
+  umbrella header "THTools.h"
+
+  export *
+  module * { export * }
+}
+
+module THTools.Swift {
+    header "THTools-Swift.h"
+    requires objc
+}
