@@ -26,16 +26,11 @@ extension THNibOwnerLoadable where Self : UIKit.UIView {
   open func customerInit()
   @objc deinit
 }
-public protocol THLoggerProtocol {
-  var showMillionSec: Swift.Bool { get }
-  var showFileLine: Swift.Bool { get }
-  var name: Swift.String { get }
-  func log(_ msg: Swift.String, file: Swift.String, line: Swift.Int)
-  func shouldShowLog() -> Swift.Bool
-}
-extension THLoggerProtocol {
+public class THLogger {
+  public var showLog: Swift.Bool
+  public init(name: Swift.String, millionSec: Swift.Bool = false, fileLine: Swift.Bool = false, showLog: Swift.Bool = true)
   public func log(_ msg: Swift.String, file: Swift.String = #file, line: Swift.Int = #line)
-  public func shouldShowLog() -> Swift.Bool
+  @objc deinit
 }
 extension UIImage {
   public class func gifImageWithData(_ data: Foundation.Data) -> UIKit.UIImage?
@@ -49,15 +44,18 @@ extension String {
 }
 public struct THTools {
   public struct ToolConstants {
-    public struct Logger {
-      public static var on: Swift.Bool
-      public static var nhPostBody: Swift.Bool
-      public static var nhResponse: Swift.Bool
-      public static var netHelper: Swift.Bool
-      public static var scanner: Swift.Bool
-      public static var notificaton: Swift.Bool
-    }
     public static var netHelperDefaultDomain: Swift.String
+  }
+  public struct Logger {
+    public static var on: Swift.Bool {
+      get
+      set(value)
+    }
+    public static var netHelper: THLogger
+    public static var scanner: THLogger
+    public static var notification: THLogger
+    public static var nhPostBody: Swift.Bool
+    public static var nhResponse: Swift.Bool
   }
   public static func makeQRCodeImg(qrcode: Swift.String?, scale: CoreGraphics.CGFloat = 10) -> UIKit.UIImage?
   public static func makeVC<T>(type: T.Type, inStoryBoard story: Swift.String = "Main") -> T? where T : UIKit.UIViewController
