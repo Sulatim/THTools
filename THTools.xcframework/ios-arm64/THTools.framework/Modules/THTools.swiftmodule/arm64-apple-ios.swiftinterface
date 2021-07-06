@@ -62,6 +62,7 @@ public struct THTools {
   public static func makeQRCodeImg(qrcode: Swift.String?, scale: CoreGraphics.CGFloat = 10) -> UIKit.UIImage?
   public static func makeVC<T>(type: T.Type, inStoryBoard story: Swift.String = "Main") -> T? where T : UIKit.UIViewController
   public static func runInMainThread(closure: @escaping () -> Swift.Void)
+  public static func openAppSettingPage()
 }
 extension THTools {
   public struct Validate {
@@ -173,9 +174,11 @@ public protocol THScannerViewDelegate : AnyObject {
   func scannerNeedToRequestAuth()
   func scannerCancelRequestAuth()
 }
+extension THScannerViewDelegate {
+  public func scannerCancelRequestAuth()
+}
 extension THScannerViewDelegate where Self : UIKit.UIViewController {
   public func scannerNeedToRequestAuth()
-  public func scannerCancelRequestAuth()
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class THScannerView : UIKit.UIView {
   weak public var delegate: THScannerViewDelegate?
@@ -218,18 +221,22 @@ extension CBManagerState {
     get
   }
 }
-extension THBleHelperDelegate where Self : UIKit.UIViewController {
+extension THBleHelperDelegate {
   public func bleInitialOK()
-  public func bleNeedToRequestAuth()
   public func bleCancelRequestAuth()
-  public func bleNeedOpenBle()
   public func bleCloseOpenBleAlert()
 }
-@objc @_hasMissingDesignatedInitializers public class THBleHelper : ObjectiveC.NSObject {
+extension THBleHelperDelegate where Self : UIKit.UIViewController {
+  public func bleNeedToRequestAuth()
+  public func bleNeedOpenBle()
+}
+@objc public class THBleHelper : ObjectiveC.NSObject {
+  weak public var delegate: THBleHelperDelegate?
   public var detectServices: [CoreBluetooth.CBUUID]?
   public var targetPeripherals: [CoreBluetooth.CBPeripheral] {
     get
   }
+  public init(withAutoScan autoScan: Swift.Bool = true)
   public func startScan()
   public func stopSacn()
   public func connectTo(peripheral: CoreBluetooth.CBPeripheral)

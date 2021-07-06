@@ -22,11 +22,11 @@
 		</data>
 		<key>Modules/THTools.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		tTcqt03FEtYJxeDpJgX2VwxXx24=
+		gln+yDlCv9QOgfoL1me0PDlV/+4=
 		</data>
 		<key>Modules/THTools.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		a3XnIhnU69EqP99tMhGUweGnnVc=
+		l1xIJhgLGo6KEWX7rCdBYLUop+I=
 		</data>
 		<key>Modules/THTools.swiftmodule/arm64.swiftdoc</key>
 		<data>
@@ -34,11 +34,11 @@
 		</data>
 		<key>Modules/THTools.swiftmodule/arm64.swiftinterface</key>
 		<data>
-		tTcqt03FEtYJxeDpJgX2VwxXx24=
+		gln+yDlCv9QOgfoL1me0PDlV/+4=
 		</data>
 		<key>Modules/THTools.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		a3XnIhnU69EqP99tMhGUweGnnVc=
+		l1xIJhgLGo6KEWX7rCdBYLUop+I=
 		</data>
 		<key>Modules/THTools.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -46,11 +46,11 @@
 		</data>
 		<key>Modules/THTools.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		HsV953KFhhgUyb7YelwHfTUwQQI=
+		CSkPx/W251UxebYFYz/K01d1TYk=
 		</data>
 		<key>Modules/THTools.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		zb6naankyk76Uwai1Yrt3Eq7Rdk=
+		JXb++/rmEzAW94bIHqnzYiA4R6Q=
 		</data>
 		<key>Modules/THTools.swiftmodule/x86_64.swiftdoc</key>
 		<data>
@@ -58,11 +58,11 @@
 		</data>
 		<key>Modules/THTools.swiftmodule/x86_64.swiftinterface</key>
 		<data>
-		HsV953KFhhgUyb7YelwHfTUwQQI=
+		CSkPx/W251UxebYFYz/K01d1TYk=
 		</data>
 		<key>Modules/THTools.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		zb6naankyk76Uwai1Yrt3Eq7Rdk=
+		JXb++/rmEzAW94bIHqnzYiA4R6Q=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -96,14 +96,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			aLRp3aSLRC63gvm7u7yIMKu+sk7eOvhGls6vC0tsSlw=
+			xpXGXKXnF4HdffauT5qqZv6uNQayVJzm9WrIBGVpaSE=
 			</data>
 		</dict>
 		<key>Modules/THTools.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			8rIjoCqMYU3dBBOy5JNCl5EiZw4dMNmQEqi/MH/QPnU=
+			q7uTspdrRbuHFadwehLNMOgwhxt45oNL/LHVCNDCQNI=
 			</data>
 		</dict>
 		<key>Modules/THTools.swiftmodule/arm64.swiftdoc</key>
@@ -117,14 +117,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			aLRp3aSLRC63gvm7u7yIMKu+sk7eOvhGls6vC0tsSlw=
+			xpXGXKXnF4HdffauT5qqZv6uNQayVJzm9WrIBGVpaSE=
 			</data>
 		</dict>
 		<key>Modules/THTools.swiftmodule/arm64.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			8rIjoCqMYU3dBBOy5JNCl5EiZw4dMNmQEqi/MH/QPnU=
+			q7uTspdrRbuHFadwehLNMOgwhxt45oNL/LHVCNDCQNI=
 			</data>
 		</dict>
 		<key>Modules/THTools.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
@@ -138,14 +138,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			a6cOGJRMi9aBiYBm/4mjSk5wrfYeWETZjwdPNi7MdgM=
+			Insnc0BBfTL8rsJFbXsjFX/FHgheFfC+g2FWmT4NNsk=
 			</data>
 		</dict>
 		<key>Modules/THTools.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			iEQGy57hWjRZqHbIc7wycamnQOEPGwN0BgLOkucvYTo=
+			+19fYP2YBguLehTYkuwg83Dkd3aBhGnWBLPqHbcBQIs=
 			</data>
 		</dict>
 		<key>Modules/THTools.swiftmodule/x86_64.swiftdoc</key>
@@ -159,14 +159,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			a6cOGJRMi9aBiYBm/4mjSk5wrfYeWETZjwdPNi7MdgM=
+			Insnc0BBfTL8rsJFbXsjFX/FHgheFfC+g2FWmT4NNsk=
 			</data>
 		</dict>
 		<key>Modules/THTools.swiftmodule/x86_64.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			iEQGy57hWjRZqHbIc7wycamnQOEPGwN0BgLOkucvYTo=
+			+19fYP2YBguLehTYkuwg83Dkd3aBhGnWBLPqHbcBQIs=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
