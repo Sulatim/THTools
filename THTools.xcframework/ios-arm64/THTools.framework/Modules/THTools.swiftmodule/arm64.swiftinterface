@@ -2,6 +2,7 @@
 // swift-compiler-version: Apple Swift version 5.4 (swiftlang-1205.0.26.9 clang-1205.0.19.55)
 // swift-module-flags: -target arm64-apple-ios14.5 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name THTools
 import AVFoundation
+import CoreBluetooth
 import Foundation
 import ImageIO
 import Swift
@@ -54,6 +55,7 @@ public struct THTools {
     public static var netHelper: THLogger
     public static var scanner: THLogger
     public static var notification: THLogger
+    public static var bleHelper: THLogger
     public static var nhPostBody: Swift.Bool
     public static var nhResponse: Swift.Bool
   }
@@ -168,10 +170,12 @@ extension Date {
 }
 public protocol THScannerViewDelegate : AnyObject {
   func scannerSouldKeepScanWhenDetectBarcode(_ barcode: Swift.String) -> Swift.Bool
-  func needToRequestAuth()
+  func scannerNeedToRequestAuth()
+  func scannerCancelRequestAuth()
 }
 extension THScannerViewDelegate where Self : UIKit.UIViewController {
-  public func needToRequestAuth()
+  public func scannerNeedToRequestAuth()
+  public func scannerCancelRequestAuth()
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class THScannerView : UIKit.UIView {
   weak public var delegate: THScannerViewDelegate?
@@ -193,4 +197,55 @@ public class THNetworkHelper<T> : ObjectiveC.NSObject where T : Swift.Decodable 
   public func startRequest(complete: @escaping (Swift.Bool, Swift.String, T?) -> Swift.Void)
   @objc override dynamic public init()
   @objc deinit
+}
+public protocol THBleHelperDelegate : AnyObject {
+  func bleNeedToRequestAuth()
+  func bleCancelRequestAuth()
+  func bleStartScanWithError(state: CoreBluetooth.CBManagerState)
+  func bleInitialOK()
+  func bleNeedOpenBle()
+  func bleCloseOpenBleAlert()
+  func bleUpdateScannedPeripherals(peripherals: [CoreBluetooth.CBPeripheral])
+  func bleConnectedPeripheralSearchServices(peripheral: CoreBluetooth.CBPeripheral) -> [CoreBluetooth.CBUUID]?
+  func bleDisconnectPeripheralNeedReconnect(peripheral: CoreBluetooth.CBPeripheral) -> Swift.Bool
+  func bleDiscoverServicesFindCharacteristics(peripheral: CoreBluetooth.CBPeripheral) -> [(service: CoreBluetooth.CBService, characteristics: [CoreBluetooth.CBUUID]?)]
+  func bleFindCharInService(peripheral: CoreBluetooth.CBPeripheral, service: CoreBluetooth.CBService)
+  func bleCharacterUpdateValue(peripheral: CoreBluetooth.CBPeripheral, character: CoreBluetooth.CBCharacteristic, data: Foundation.Data?)
+  func bleChangeToDisconnected()
+}
+extension CBManagerState {
+  public var scanOpenFailMsg: Swift.String {
+    get
+  }
+}
+extension THBleHelperDelegate where Self : UIKit.UIViewController {
+  public func bleInitialOK()
+  public func bleNeedToRequestAuth()
+  public func bleCancelRequestAuth()
+  public func bleNeedOpenBle()
+  public func bleCloseOpenBleAlert()
+}
+@objc @_hasMissingDesignatedInitializers public class THBleHelper : ObjectiveC.NSObject {
+  public var detectServices: [CoreBluetooth.CBUUID]?
+  public var targetPeripherals: [CoreBluetooth.CBPeripheral] {
+    get
+  }
+  public func startScan()
+  public func stopSacn()
+  public func connectTo(peripheral: CoreBluetooth.CBPeripheral)
+  public func disconnectTo(peripheral: CoreBluetooth.CBPeripheral)
+  public func disconnect()
+  @objc deinit
+  @objc override dynamic public init()
+}
+extension THBleHelper : CoreBluetooth.CBCentralManagerDelegate {
+  @objc dynamic public func centralManagerDidUpdateState(_ central: CoreBluetooth.CBCentralManager)
+  @objc dynamic public func centralManager(_ central: CoreBluetooth.CBCentralManager, didDiscover peripheral: CoreBluetooth.CBPeripheral, advertisementData: [Swift.String : Any], rssi RSSI: Foundation.NSNumber)
+  @objc dynamic public func centralManager(_ central: CoreBluetooth.CBCentralManager, didConnect peripheral: CoreBluetooth.CBPeripheral)
+  @objc dynamic public func centralManager(_ central: CoreBluetooth.CBCentralManager, didDisconnectPeripheral peripheral: CoreBluetooth.CBPeripheral, error: Swift.Error?)
+}
+extension THBleHelper : CoreBluetooth.CBPeripheralDelegate {
+  @objc dynamic public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didDiscoverServices error: Swift.Error?)
+  @objc dynamic public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didDiscoverCharacteristicsFor service: CoreBluetooth.CBService, error: Swift.Error?)
+  @objc dynamic public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didUpdateValueFor characteristic: CoreBluetooth.CBCharacteristic, error: Swift.Error?)
 }
