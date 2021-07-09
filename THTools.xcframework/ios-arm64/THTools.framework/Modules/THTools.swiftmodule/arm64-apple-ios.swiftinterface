@@ -1,6 +1,6 @@
 // swift-interface-format-version: 1.0
 // swift-compiler-version: Apple Swift version 5.4 (swiftlang-1205.0.26.9 clang-1205.0.19.55)
-// swift-module-flags: -target arm64-apple-ios14.5 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name THTools
+// swift-module-flags: -target arm64-apple-ios11.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name THTools
 import AVFoundation
 import Foundation
 import ImageIO
@@ -20,7 +20,7 @@ public protocol THNibOwnerLoadable : AnyObject {
 extension THNibOwnerLoadable where Self : UIKit.UIView {
   public func loadNibContent()
 }
-@objc @_inheritsConvenienceInitializers open class THNibViewBase : UIKit.UIView, THNibOwnerLoadable {
+@_inheritsConvenienceInitializers @objc open class THNibViewBase : UIKit.UIView, THNibOwnerLoadable {
   @objc override dynamic public init(frame: CoreGraphics.CGRect)
   @objc required dynamic public init?(coder: Foundation.NSCoder)
   open func customerInit()
