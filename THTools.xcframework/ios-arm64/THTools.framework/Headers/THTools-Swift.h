@@ -209,10 +209,15 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 # pragma pop_macro("any")
 #endif
 
+
+SWIFT_PROTOCOL("_TtP7THTools18THNibOwnerLoadable_")
+@protocol THNibOwnerLoadable
+@end
+
 @class NSCoder;
 
 SWIFT_CLASS("_TtC7THTools13THNibViewBase")
-@interface THNibViewBase : UIView
+@interface THNibViewBase : UIView <THNibOwnerLoadable>
 - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end

@@ -15,12 +15,12 @@ public class THSaveData<T> {
   }
   @objc deinit
 }
-public protocol THNibOwnerLoadable : AnyObject {
+@objc public protocol THNibOwnerLoadable {
 }
 extension THNibOwnerLoadable where Self : UIKit.UIView {
   public func loadNibContent()
 }
-@_inheritsConvenienceInitializers @objc open class THNibViewBase : UIKit.UIView, THNibOwnerLoadable {
+@objc @_inheritsConvenienceInitializers open class THNibViewBase : UIKit.UIView, THNibOwnerLoadable {
   @objc override dynamic public init(frame: CoreGraphics.CGRect)
   @objc required dynamic public init?(coder: Foundation.NSCoder)
   open func customerInit()
