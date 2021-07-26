@@ -18,5 +18,6 @@ Pod::Spec.new do |s|
   s.source_files  = "Code/THTools/*.swift"
 
   s.module_name = 'THTools'                #模块名称
+  s.dependency "KRProgressHUD"
 
 end
