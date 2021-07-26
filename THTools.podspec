@@ -15,7 +15,8 @@ Pod::Spec.new do |s|
   s.requires_arc = true                    #是否使用ARC
 
   s.swift_versions = "5.0"
-  s.vendored_frameworks = 'THTools.xcframework'
+  s.source_files  = "Code/THTools/*.swift"
+
   s.module_name = 'THTools'                #模块名称
 
 end
