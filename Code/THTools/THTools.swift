@@ -126,6 +126,17 @@ extension THTools {
         public static func getOSVersion() -> String {
             return "\(UIDevice.current.systemVersion)"
         }
+
+        public static func getMachineName() -> String {
+            var utsnameInstance = utsname()
+            uname(&utsnameInstance)
+            let optionalString: String? = withUnsafePointer(to: &utsnameInstance.machine) {
+                $0.withMemoryRebound(to: CChar.self, capacity: 1) {
+                    ptr in String.init(validatingUTF8: ptr)
+                }
+            }
+            return optionalString ?? "N/A"
+        }
     }
 }
 
