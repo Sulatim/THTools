@@ -145,7 +145,6 @@ public class THScannerView: UIView {
             return false
         }
 
-        // 条码类型 AVMetadataObjectTypeQRCode
         self.output?.metadataObjectTypes = self.detectBarcodeTypes
 
         self.preview = AVCaptureVideoPreviewLayer.init(session: self.session!)

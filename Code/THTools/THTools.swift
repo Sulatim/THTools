@@ -4,6 +4,7 @@ import UIKit
 public struct THTools {
     public struct ToolConstants {
         public static var netHelperDefaultDomain: String = ""
+        public static var netHelperDomainGetter: (() -> String)?
     }
 
     public struct Logger {
@@ -12,14 +13,12 @@ public struct THTools {
                 self.netHelper.showLog = on
                 self.scanner.showLog = on
                 self.notification.showLog = on
-//                self.bleHelper.showLog = on
             }
         }
 
         public static let netHelper = THLogger.init(name: "NetHelper", showLog: false)
         public static let scanner = THLogger.init(name: "Scanner", showLog: false)
         public static let notification = THLogger.init(name: "Notification", showLog: false)
-//        public static let bleHelper = THLogger.init(name: "BleHelper", showLog: false)
 
         public static var nhPostBody = false
         public static var nhResponse = false

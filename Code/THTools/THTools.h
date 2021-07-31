@@ -1,9 +1,3 @@
-//
-//  THTools.h
-//  THTools
-//
-//  Created by CHX 何 on 2021/7/3.
-//
 
 #import <Foundation/Foundation.h>
 

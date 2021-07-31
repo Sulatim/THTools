@@ -1,11 +1,15 @@
 
 import UIKit
 
-// MARK: - Net Connector
 public class THNetworkHelper<T: Decodable>: NSObject {
 
     private var hostDomain: String {
-        return THTools.ToolConstants.netHelperDefaultDomain
+        var result = THTools.ToolConstants.netHelperDefaultDomain
+        if let closure = THTools.ToolConstants.netHelperDomainGetter {
+            result = closure()
+        }
+
+        return result
     }
 
     public var showPostBody = false
@@ -24,10 +28,11 @@ public class THNetworkHelper<T: Decodable>: NSObject {
         afterInit()
     }
 
-    public init(url: String) {
+    public init(url: String, body: Any? = nil) {
         super.init()
 
         self.strUrl = url
+        self.postBody = body
         self.afterInit()
     }
 
@@ -69,25 +74,25 @@ public class THNetworkHelper<T: Decodable>: NSObject {
         return request
     }
 
-    public func startRequest(complete: @escaping (Bool, String, T?) -> Void) {
+    public func startRequest(complete: @escaping (THNetworkResponse<T>) -> Void) {
 
         guard let request = makeRequest() else {
-            complete(false, "Invalid url!", nil)
+            complete(THNetworkResponse.init(success: false, errMsg: "Invalid url!", data: nil, rawData: nil, urlResponse: nil, error: nil))
             return
         }
 
         THTools.Logger.netHelper.log("start: \(request.url?.absoluteString ?? "unknow")")
-        URLSession.shared.dataTask(with: request, completionHandler: { (data, _, error) in
+        URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
             if let err = error {
                 DispatchQueue.main.async {
-                    complete(false, err.localizedDescription, nil)
+                    complete(THNetworkResponse.init(success: false, errMsg: err.localizedDescription, data: nil, rawData: data, urlResponse: response, error: error))
                 }
                 return
             }
 
             guard let data = data else {
                 DispatchQueue.main.async {
-                    complete(false, "no data", nil)
+                    complete(THNetworkResponse.init(success: false, errMsg: "no data", data: nil, rawData: data, urlResponse: response, error: error))
                 }
                 return
             }
@@ -109,27 +114,38 @@ public class THNetworkHelper<T: Decodable>: NSObject {
                 if rTmp.ok == false {
                     if result == nil {
                         DispatchQueue.main.async {
-                            complete(false, "parse fail", nil)
+                            complete(THNetworkResponse.init(success: false, errMsg: "parse fail", data: nil, rawData: data, urlResponse: response, error: error))
                         }
                         return
                     }
                     DispatchQueue.main.async {
-                        complete(false, rTmp.err, nil)
+                        complete(THNetworkResponse.init(success: false, errMsg: rTmp.err, data: nil, rawData: data, urlResponse: response, error: error))
                     }
                     return
                 }
             } else {
                 if result == nil {
                     DispatchQueue.main.async {
-                        complete(false, "parse fail", nil)
+                        complete(THNetworkResponse.init(success: false, errMsg: "parse fail", data: nil, rawData: data, urlResponse: response, error: error))
                     }
                     return
                 }
             }
 
             DispatchQueue.main.async {
-                complete(true, "", result)
+                complete(THNetworkResponse.init(success: true, errMsg: "", data: result, rawData: data, urlResponse: response, error: error))
             }
         }).resume()
     }
+}
+
+// MARK: - Network Response
+public struct THNetworkResponse<T: Decodable> {
+    public var success: Bool
+    public var errMsg: String
+    public var data: T?
+
+    public var rawData: Data?
+    public var urlResponse: URLResponse?
+    public var error: Error?
 }
