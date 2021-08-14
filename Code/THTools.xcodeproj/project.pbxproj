@@ -23,7 +23,7 @@
 /* Begin PBXBuildFile section */
 		27C05CE41655E10C432BC5E9 /* Pods_THTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1130EE195B8C1FF7C345BE7 /* Pods_THTools.framework */; };
 		BE68779D268F71F300A9DD85 /* THTools.h in Headers */ = {isa = PBXBuildFile; fileRef = BE68779B268F71F300A9DD85 /* THTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BE6877AD268F725700A9DD85 /* THSaveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6877A4268F725700A9DD85 /* THSaveData.swift */; };
+		BE6877AD268F725700A9DD85 /* THStorageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6877A4268F725700A9DD85 /* THStorageData.swift */; };
 		BE6877AE268F725700A9DD85 /* THScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6877A5268F725700A9DD85 /* THScannerView.swift */; };
 		BE6877AF268F725700A9DD85 /* THLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6877A6268F725700A9DD85 /* THLogger.swift */; };
 		BE6877B0268F725700A9DD85 /* THTools+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6877A7268F725700A9DD85 /* THTools+Gif.swift */; };
@@ -38,7 +38,7 @@
 		BE687798268F71F300A9DD85 /* THTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = THTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE68779B268F71F300A9DD85 /* THTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THTools.h; sourceTree = "<group>"; };
 		BE68779C268F71F300A9DD85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BE6877A4268F725700A9DD85 /* THSaveData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = THSaveData.swift; sourceTree = "<group>"; };
+		BE6877A4268F725700A9DD85 /* THStorageData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = THStorageData.swift; sourceTree = "<group>"; };
 		BE6877A5268F725700A9DD85 /* THScannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = THScannerView.swift; sourceTree = "<group>"; };
 		BE6877A6268F725700A9DD85 /* THLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = THLogger.swift; sourceTree = "<group>"; };
 		BE6877A7268F725700A9DD85 /* THTools+Gif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "THTools+Gif.swift"; sourceTree = "<group>"; };
@@ -48,6 +48,7 @@
 		BE6877AB268F725700A9DD85 /* THTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = THTools.swift; sourceTree = "<group>"; };
 		BE6877AC268F725700A9DD85 /* THTools+Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "THTools+Date.swift"; sourceTree = "<group>"; };
 		BE6877E0268F826800A9DD85 /* Memo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Memo; sourceTree = "<group>"; };
+		BEA43E4F26C0202500192604 /* OtherFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherFunc.swift; sourceTree = "<group>"; };
 		E1130EE195B8C1FF7C345BE7 /* Pods_THTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_THTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3F0E736757E3EDFA31942F9 /* Pods-THTools.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THTools.debug.xcconfig"; path = "Target Support Files/Pods-THTools/Pods-THTools.debug.xcconfig"; sourceTree = "<group>"; };
 		FA1305CA6F112DC89E318E5E /* Pods-THTools.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THTools.release.xcconfig"; path = "Target Support Files/Pods-THTools/Pods-THTools.release.xcconfig"; sourceTree = "<group>"; };
@@ -71,7 +72,6 @@
 				F3F0E736757E3EDFA31942F9 /* Pods-THTools.debug.xcconfig */,
 				FA1305CA6F112DC89E318E5E /* Pods-THTools.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -87,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				BE6877E0268F826800A9DD85 /* Memo */,
+				BEA43E4F26C0202500192604 /* OtherFunc.swift */,
 				BE68779A268F71F300A9DD85 /* THTools */,
 				BE687799268F71F300A9DD85 /* Products */,
 				1254BD27BD1CCDAF358FFCC3 /* Pods */,
@@ -111,7 +112,7 @@
 				BE6877A6268F725700A9DD85 /* THLogger.swift */,
 				BE6877AA268F725700A9DD85 /* THNetHelper.swift */,
 				BE6877A9268F725700A9DD85 /* THNibViewBase.swift */,
-				BE6877A4268F725700A9DD85 /* THSaveData.swift */,
+				BE6877A4268F725700A9DD85 /* THStorageData.swift */,
 				BE6877A5268F725700A9DD85 /* THScannerView.swift */,
 				BE6877AB268F725700A9DD85 /* THTools.swift */,
 				BE6877AC268F725700A9DD85 /* THTools+Date.swift */,
@@ -246,7 +247,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE6877AD268F725700A9DD85 /* THSaveData.swift in Sources */,
+				BE6877AD268F725700A9DD85 /* THStorageData.swift in Sources */,
 				BE6877B2268F725700A9DD85 /* THNibViewBase.swift in Sources */,
 				BE6877AF268F725700A9DD85 /* THLogger.swift in Sources */,
 				BE6877B0268F725700A9DD85 /* THTools+Gif.swift in Sources */,

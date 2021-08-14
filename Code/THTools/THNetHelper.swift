@@ -77,7 +77,7 @@ public class THNetworkHelper<T: Decodable>: NSObject {
     public func startRequest(complete: @escaping (THNetworkResponse<T>) -> Void) {
 
         guard let request = makeRequest() else {
-            complete(THNetworkResponse.init(success: false, errMsg: "Invalid url!", data: nil, rawData: nil, urlResponse: nil, error: nil))
+            complete(THNetworkResponse.init(success: false, errMsg: THNetworkError.invalidUrl.rawValue, data: nil, rawData: nil, urlResponse: nil, error: nil))
             return
         }
 
@@ -92,7 +92,7 @@ public class THNetworkHelper<T: Decodable>: NSObject {
 
             guard let data = data else {
                 DispatchQueue.main.async {
-                    complete(THNetworkResponse.init(success: false, errMsg: "no data", data: nil, rawData: data, urlResponse: response, error: error))
+                    complete(THNetworkResponse.init(success: false, errMsg: THNetworkError.noData.rawValue, data: nil, rawData: data, urlResponse: response, error: error))
                 }
                 return
             }
@@ -114,7 +114,7 @@ public class THNetworkHelper<T: Decodable>: NSObject {
                 if rTmp.ok == false {
                     if result == nil {
                         DispatchQueue.main.async {
-                            complete(THNetworkResponse.init(success: false, errMsg: "parse fail", data: nil, rawData: data, urlResponse: response, error: error))
+                            complete(THNetworkResponse.init(success: false, errMsg: THNetworkError.parseFail.rawValue, data: nil, rawData: data, urlResponse: response, error: error))
                         }
                         return
                     }
@@ -126,7 +126,7 @@ public class THNetworkHelper<T: Decodable>: NSObject {
             } else {
                 if result == nil {
                     DispatchQueue.main.async {
-                        complete(THNetworkResponse.init(success: false, errMsg: "parse fail", data: nil, rawData: data, urlResponse: response, error: error))
+                        complete(THNetworkResponse.init(success: false, errMsg: THNetworkError.parseFail.rawValue, data: nil, rawData: data, urlResponse: response, error: error))
                     }
                     return
                 }
@@ -148,4 +148,10 @@ public struct THNetworkResponse<T: Decodable> {
     public var rawData: Data?
     public var urlResponse: URLResponse?
     public var error: Error?
+}
+
+public enum THNetworkError: String {
+    case invalidUrl = "Invalid url"
+    case noData = "no data"
+    case parseFail = "parse fail"
 }
