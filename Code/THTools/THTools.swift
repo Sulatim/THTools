@@ -397,10 +397,13 @@ extension UINavigationController {
         }
     }
 
-    public func popToType<T: UIViewController>(type: T.Type) {
+    public func popToType<T: UIViewController>(type: T.Type) -> Bool {
         if let vc = self.viewControllers.last(where: { $0 is T }) {
             self.popToViewController(vc, animated: true)
+            return true
         }
+
+        return false
     }
 }
 
