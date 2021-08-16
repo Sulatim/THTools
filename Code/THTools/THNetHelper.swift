@@ -82,17 +82,17 @@ public class THNetworkHelper<T: Decodable>: NSObject {
         }
 
         THTools.Logger.netHelper.log("start: \(request.url?.absoluteString ?? "unknow")")
-        URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
+        URLSession.shared.dataTask(with: request, completionHandler: { (datSrc, response, error) in
             if let err = error {
                 DispatchQueue.main.async {
-                    complete(THNetworkResponse.init(success: false, errMsg: err.localizedDescription, data: nil, rawData: data, urlResponse: response, error: error))
+                    complete(THNetworkResponse.init(success: false, errMsg: err.localizedDescription, data: nil, rawData: datSrc, urlResponse: response, error: error))
                 }
                 return
             }
 
-            guard let data = data else {
+            guard let data = datSrc else {
                 DispatchQueue.main.async {
-                    complete(THNetworkResponse.init(success: false, errMsg: THNetworkError.noData.rawValue, data: nil, rawData: data, urlResponse: response, error: error))
+                    complete(THNetworkResponse.init(success: false, errMsg: THNetworkError.noData.rawValue, data: nil, rawData: datSrc, urlResponse: response, error: error))
                 }
                 return
             }

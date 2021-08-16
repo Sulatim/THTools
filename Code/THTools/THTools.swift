@@ -403,3 +403,19 @@ extension UINavigationController {
         }
     }
 }
+
+extension Data {
+    public var desc: String {
+        return self.map { String(format: "%02x", $0) }.joined()
+    }
+}
+
+extension Decimal {
+    public func toString(minDigits: Int = 0, maxDigits: Int = 2) -> String? {
+        let formatter = NumberFormatter()
+        formatter.generatesDecimalNumbers = true
+        formatter.minimumFractionDigits = minDigits
+        formatter.maximumFractionDigits = maxDigits
+        return formatter.string(from: self as NSDecimalNumber)
+    }
+}

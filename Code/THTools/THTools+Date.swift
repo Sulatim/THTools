@@ -97,14 +97,14 @@ extension THTools {
             let datMonthFirst = self.getFirstDateOfMonth(dat: dat)
             var weekDay = Calendar.current.component(.weekday, from: datMonthFirst)
             if weekDay == firstWeekDay {
-                return dat
+                return datMonthFirst
             } else if weekDay < firstWeekDay {
                 weekDay = weekDay + 7
             }
 
             return datMonthFirst.addingTimeInterval(TimeInterval(60 * 60 * 24 * (firstWeekDay - weekDay)))
         }
-        
+
         public static func addMonth(month: Int, from: Date) -> Date {
             var datComponents = DateComponents()
             datComponents.setValue(month, for: Calendar.Component.month)
