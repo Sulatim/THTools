@@ -7,6 +7,9 @@ public class THLogger {
     let name: String
     public var showLog: Bool
 
+    private var datStart = Date()
+    private var datPrev = Date()
+
     public init(name: String, millionSec: Bool = false, fileLine: Bool = false, showLog: Bool = true) {
         self.showMillionSec = millionSec
         self.showFileLine = fileLine
@@ -14,7 +17,24 @@ public class THLogger {
         self.showLog = showLog
     }
 
-    public func log(_ msg: String, file: String = #file, line: Int = #line ) {
+    public func startTime(_ msg: String = "", file: String = #file, line: Int = #line) {
+        self.datStart = Date()
+        self.datPrev = Date()
+        self.log("\(msg) S: \(datStart.timeIntervalSince1970)", file: file, line: line)
+    }
+
+    public func logInterval(_ msg: String, file: String = #file, line: Int = #line) {
+        let datTmp = Date()
+        self.log("\(msg) I: \(datTmp.timeIntervalSince(self.datPrev))")
+        self.datPrev = datTmp
+    }
+
+    public func logIntervalFromStart(_ msg: String = "", file: String = #file, line: Int = #line) {
+        let datTmp = Date()
+        self.log("\(msg) E:\(datTmp.timeIntervalSince1970) IS: \(datTmp.timeIntervalSince(self.datStart))")
+    }
+
+    public func log(_ msg: String, file: String = #file, line: Int = #line) {
         if self.showLog == false {
             return
         }

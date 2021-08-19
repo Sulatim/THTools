@@ -23,6 +23,31 @@ public class THStorageData<T> {
     }
 }
 
+public class THStorageNotNullData<T> {
+    let saveKey: String
+    let defaultValue: T
+
+    public init(_ key: String, def: T) {
+        self.saveKey = key
+        self.defaultValue = def
+    }
+
+    private var _value: T?
+    public var value: T {
+        get {
+            if _value == nil {
+                _value = (UserDefaults.app.value(forKey: self.saveKey) as? T)
+            }
+
+            return _value ?? self.defaultValue
+        }
+        set {
+            _value = newValue
+            UserDefaults.app.setValue(newValue, forKey: self.saveKey)
+        }
+    }
+}
+
 public class THStorageParseData<T: Codable> {
     let saveKey: String
 
