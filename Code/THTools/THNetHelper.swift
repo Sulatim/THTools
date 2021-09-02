@@ -1,11 +1,29 @@
 
 import UIKit
 
+public struct THNetHelperConfig {
+    public static var hostDomain: String = ""
+    public static var hostDomainGetter: (() -> String)?
+
+    public static func setAllLogSwitchTo(on: Bool) {
+        self.showBasicLog = on
+        self.showPostDataLog = on
+        self.showResponseLog = on
+    }
+    public static var showPostDataLog = false
+    public static var showResponseLog = false
+    public static var showBasicLog = false
+    static let logger = THLogger.init(name: "THNetHelper")
+
+    public static var universalRequestRegulator: ((URLRequest) -> URLRequest)?
+    public static var universalResultChecker: ((Any?) -> (ok: Bool, err: String))?
+}
+
 public class THNetworkHelper<T: Decodable>: NSObject {
 
     private var hostDomain: String {
-        var result = THTools.ToolConstants.netHelperDefaultDomain
-        if let closure = THTools.ToolConstants.netHelperDomainGetter {
+        var result = THNetHelperConfig.hostDomain
+        if let closure = THNetHelperConfig.hostDomainGetter {
             result = closure()
         }
 
@@ -18,7 +36,7 @@ public class THNetworkHelper<T: Decodable>: NSObject {
     private var postBody: Any?
 
     public var modifyRequest: ((URLRequest) -> URLRequest)?
-    public var checkResultClosure: ((T?) -> (ok: Bool, err: String))?
+    public var checkResultClosure: ((Any?) -> (ok: Bool, err: String))?
 
     public init(suffix: String = "", body: Any? = nil) {
         super.init()
@@ -37,8 +55,10 @@ public class THNetworkHelper<T: Decodable>: NSObject {
     }
 
     private func afterInit() {
-        self.showPostBody = THTools.Logger.nhPostBody
-        self.showResponse = THTools.Logger.nhResponse
+        self.showPostBody = THNetHelperConfig.showPostDataLog
+        self.showResponse = THNetHelperConfig.showResponseLog
+        self.modifyRequest = THNetHelperConfig.universalRequestRegulator
+        self.checkResultClosure = THNetHelperConfig.universalResultChecker
     }
 
     private func makeRequest() -> URLRequest? {
@@ -62,7 +82,7 @@ public class THNetworkHelper<T: Decodable>: NSObject {
             if let body = try? JSONSerialization.data(withJSONObject: post, options: .fragmentsAllowed) {
                 request.httpBody = body
                 if showPostBody {
-                    THTools.Logger.netHelper.log("post:\(String.init(data: body, encoding: String.Encoding.utf8) ?? "")")
+                    THNetHelperConfig.logger.log("post:\(String.init(data: body, encoding: String.Encoding.utf8) ?? "")")
                 }
             }
         }
@@ -81,7 +101,10 @@ public class THNetworkHelper<T: Decodable>: NSObject {
             return
         }
 
-        THTools.Logger.netHelper.log("start: \(request.url?.absoluteString ?? "unknow")")
+        if THNetHelperConfig.showBasicLog {
+            THNetHelperConfig.logger.log("start \(request.httpMethod ?? ""): \(request.url?.absoluteString ?? "unknow")")
+        }
+
         URLSession.shared.dataTask(with: request, completionHandler: { (datSrc, response, error) in
             if let err = error {
                 DispatchQueue.main.async {
@@ -96,17 +119,30 @@ public class THNetworkHelper<T: Decodable>: NSObject {
                 }
                 return
             }
-            THTools.Logger.netHelper.log("response of: \(self.strUrl)")
+
+            var strTmpLog = ""
+            if THNetHelperConfig.showBasicLog {
+                strTmpLog = "response of: \(self.strUrl)"
+            }
+
             if self.showResponse {
-                THTools.Logger.netHelper.log("\(String.init(data: data, encoding: String.Encoding.utf8) ?? "")")
-            } else {
-                THTools.Logger.netHelper.log("data.count = \(data.count)")
+                if strTmpLog != "" {
+                    strTmpLog += "\n"
+                } else {
+                    strTmpLog += "Response Body: "
+                }
+                strTmpLog += "\(String.init(data: data, encoding: String.Encoding.utf8) ?? "")"
+            }
+            if strTmpLog != "" {
+                THNetHelperConfig.logger.log(strTmpLog)
             }
 
             let decoder = JSONDecoder()
             let result = try? decoder.decode(T.self, from: data)
             if result == nil {
-                THTools.Logger.netHelper.log("unknow data type: \(String.init(data: data, encoding: .utf8) ?? "unknow")")
+                if THNetHelperConfig.showBasicLog {
+                    THNetHelperConfig.logger.log("unknow data type: \(String.init(data: data, encoding: .utf8) ?? "unknow")")
+                }
             }
 
             if let checker = self.checkResultClosure {
@@ -119,7 +155,7 @@ public class THNetworkHelper<T: Decodable>: NSObject {
                         return
                     }
                     DispatchQueue.main.async {
-                        complete(THNetworkResponse.init(success: false, errMsg: rTmp.err, data: nil, rawData: data, urlResponse: response, error: error))
+                        complete(THNetworkResponse.init(success: false, errMsg: rTmp.err, data: result, rawData: data, urlResponse: response, error: error))
                     }
                     return
                 }

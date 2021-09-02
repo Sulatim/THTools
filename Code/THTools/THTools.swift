@@ -2,26 +2,16 @@
 import UIKit
 
 public struct THTools {
-    public struct ToolConstants {
-        public static var netHelperDefaultDomain: String = ""
-        public static var netHelperDomainGetter: (() -> String)?
-    }
-
     public struct Logger {
         public static var on = false {
             didSet {
-                self.netHelper.showLog = on
                 self.scanner.showLog = on
                 self.notification.showLog = on
             }
         }
 
-        public static let netHelper = THLogger.init(name: "NetHelper", showLog: false)
         public static let scanner = THLogger.init(name: "Scanner", showLog: false)
         public static let notification = THLogger.init(name: "Notification", showLog: false)
-
-        public static var nhPostBody = false
-        public static var nhResponse = false
     }
 
     public static func makeQRCodeImg(qrcode: String?, scale: CGFloat = 10) -> UIImage? {
@@ -88,75 +78,23 @@ extension THTools {
     }
 }
 
-extension THTools {
-    public struct Environment {
-        public static var isSimulator: Bool {
-            var result = false
-            #if arch(i386) || arch(x86_64)
-            result = true
-            #endif
-
-            return result
-        }
-
-        public static func getVersion() -> String {
-            let bundle = Bundle.main
-            let mainVer = bundle.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
-            let buildVer = bundle.infoDictionary?["CFBundleVersion"] as? String ?? ""
-
-            var prefix = "V"
-            #if DEBUG
-            prefix = "D"
-            #endif
-
-            return "\(prefix)\(mainVer) (\(buildVer))"
-        }
-
-        public static func getDeviceID() -> String {
-            if let deviceID = UserDefaults.app.string(forKey: "deviceID") {
-                return deviceID
-            }
-            let strNew = UUID().uuidString
-            UserDefaults.app.setValue(strNew, forKey: "deviceID")
-            UserDefaults.app.synchronize()
-
-            return strNew
-        }
-
-        public static func getOSVersion() -> String {
-            return "\(UIDevice.current.systemVersion)"
-        }
-
-        public static func getMachineName() -> String {
-            var utsnameInstance = utsname()
-            uname(&utsnameInstance)
-            let optionalString: String? = withUnsafePointer(to: &utsnameInstance.machine) {
-                $0.withMemoryRebound(to: CChar.self, capacity: 1) {
-                    ptr in String.init(validatingUTF8: ptr)
-                }
-            }
-            return optionalString ?? "N/A"
-        }
-    }
-}
-
-extension THTools {
-    public struct Notification {
-        public static func registerRemoteNotification() {
-            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-            UNUserNotificationCenter.current().requestAuthorization(
-                options: authOptions,
-                completionHandler: { success, error in
-                    print(success)
-                    THTools.Logger.notification.log("register result: \(success)")
-                    if let err = error {
-                        THTools.Logger.notification.log("register error: \(err.localizedDescription)")
-                    }
-            })
-            UIApplication.shared.registerForRemoteNotifications()
-        }
-    }
-}
+//extension THTools {
+//    public struct Notification {
+//        public static func registerRemoteNotification() {
+//            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+//            UNUserNotificationCenter.current().requestAuthorization(
+//                options: authOptions,
+//                completionHandler: { success, error in
+//                    print(success)
+//                    THTools.Logger.notification.log("register result: \(success)")
+//                    if let err = error {
+//                        THTools.Logger.notification.log("register error: \(err.localizedDescription)")
+//                    }
+//            })
+//            UIApplication.shared.registerForRemoteNotifications()
+//        }
+//    }
+//}
 
 extension UIView {
     public func changeToFillet(radius: CGFloat) {
