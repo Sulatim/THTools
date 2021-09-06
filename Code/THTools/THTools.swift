@@ -5,12 +5,10 @@ public struct THTools {
     public struct Logger {
         public static var on = false {
             didSet {
-                self.scanner.showLog = on
                 self.notification.showLog = on
             }
         }
 
-        public static let scanner = THLogger.init(name: "Scanner", showLog: false)
         public static let notification = THLogger.init(name: "Notification", showLog: false)
     }
 
