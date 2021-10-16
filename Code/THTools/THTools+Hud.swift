@@ -15,9 +15,31 @@ extension THTools.Validate {
         return false
     }
 
+    public static func txtIsEmpty(txt: UITextField) -> Bool {
+        if txt.text == nil || txt.text == "" {
+            KRProgressHUD.showError(txt.placeholder ?? "") {
+                txt.becomeFirstResponder()
+            }
+
+            return true
+        }
+
+        return false
+    }
+
     public static func batchCheckTxtHasEmpty(_ checkList: [(txt: UITextField, msg: String)]) -> Bool {
         for item in checkList {
             if txtIsEmpty(txt: item.txt, msg: item.msg) {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    public static func batchCheckTxtHasEmpty(_ checkList: [UITextField]) -> Bool {
+        for item in checkList {
+            if txtIsEmpty(txt: item) {
                 return true
             }
         }
