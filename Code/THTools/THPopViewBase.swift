@@ -7,19 +7,19 @@
 
 import UIKit
 
-public class THPopViewBase: THNibViewBase {
+open class THPopViewBase: THNibViewBase {
 
     private let wdMain = UIWindow()
 
-    init() {
+    public init() {
         super.init(frame: UIScreen.main.bounds)
     }
 
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-    final func displayPopViewWithAnimation(duration: TimeInterval = 0.3, completion: (() -> Void)? = nil) {
+    final public func displayPopViewWithAnimation(duration: TimeInterval = 0.3, completion: (() -> Void)? = nil) {
         DispatchQueue.main.async {
             self.wdMain.isHidden = false
             self.wdMain.backgroundColor = UIColor.clear
@@ -48,7 +48,7 @@ public class THPopViewBase: THNibViewBase {
 
     }
 
-    final func dismiss(duration: TimeInterval = 0.3, complte: (() -> Void)? = nil) {
+    final public func dismiss(duration: TimeInterval = 0.3, complte: (() -> Void)? = nil) {
         DispatchQueue.main.async {
             if duration <= 0 {
                 self.alpha = 0
