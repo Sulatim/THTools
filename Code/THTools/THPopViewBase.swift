@@ -6,9 +6,8 @@
 //
 
 import UIKit
-import THTools
 
-class THPopViewBase: THNibViewBase {
+public class THPopViewBase: THNibViewBase {
 
     private let wdMain = UIWindow()
 
@@ -45,7 +44,7 @@ class THPopViewBase: THNibViewBase {
         }
     }
 
-    func dismissed() {
+    open func dismissed() {
 
     }
 
