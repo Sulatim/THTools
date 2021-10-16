@@ -158,6 +158,21 @@ extension THTools {
             return ageComponents.year
         }
 
+        public static func convertTaiwanessDateStringToDate(_ strSource: String) -> Date? {
+            if strSource.count < 7 {
+                return nil
+            }
+
+            if strSource.isNumber == false {
+                return nil
+            }
+
+            let strYear = strSource.substring(from: 0, to: 3)
+            let strDate = strSource.substring(from: 3, to: 7)
+
+            let strNew = "\((Int(strYear) ?? 0) + 1911)\(strDate)"
+            return fmtDate.date(from: strNew)
+        }
     }
 }
 

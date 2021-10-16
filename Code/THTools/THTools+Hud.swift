@@ -8,7 +8,7 @@ extension THTools.Validate {
             KRProgressHUD.showError(msg) {
                 txt.becomeFirstResponder()
             }
-            
+
             return true
         }
 
@@ -47,6 +47,15 @@ extension KRProgressHUD {
 
     public static func showSuccess(completion: (() -> Void)?) {
         KRProgressHUD.showSuccess()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            KRProgressHUD.dismiss {
+                completion?()
+            }
+        }
+    }
+
+    public static func showMessage(_ message: String, completion: (() -> Void)?) {
+        KRProgressHUD.showMessage(message)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             KRProgressHUD.dismiss {
                 completion?()

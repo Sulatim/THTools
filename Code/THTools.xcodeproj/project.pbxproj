@@ -22,6 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		27C05CE41655E10C432BC5E9 /* Pods_THTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1130EE195B8C1FF7C345BE7 /* Pods_THTools.framework */; };
+		BE29DECA26E7B87100EBEF0B /* THTools+Hud.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE29DEC926E7B87100EBEF0B /* THTools+Hud.swift */; };
 		BE68779D268F71F300A9DD85 /* THTools.h in Headers */ = {isa = PBXBuildFile; fileRef = BE68779B268F71F300A9DD85 /* THTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE6877AD268F725700A9DD85 /* THStorageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6877A4268F725700A9DD85 /* THStorageData.swift */; };
 		BE6877AE268F725700A9DD85 /* THScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6877A5268F725700A9DD85 /* THScannerView.swift */; };
@@ -33,9 +34,11 @@
 		BE6877B4268F725700A9DD85 /* THTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6877AB268F725700A9DD85 /* THTools.swift */; };
 		BE6877B5268F725700A9DD85 /* THTools+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6877AC268F725700A9DD85 /* THTools+Date.swift */; };
 		BEB483FD26D3328B0046CF94 /* THTools+Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB483FC26D3328B0046CF94 /* THTools+Environment.swift */; };
+		BEC4AE0A271A5F0C0097876E /* THTools+Notify.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC4AE09271A5F0C0097876E /* THTools+Notify.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BE29DEC926E7B87100EBEF0B /* THTools+Hud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "THTools+Hud.swift"; sourceTree = "<group>"; };
 		BE687798268F71F300A9DD85 /* THTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = THTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE68779B268F71F300A9DD85 /* THTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THTools.h; sourceTree = "<group>"; };
 		BE68779C268F71F300A9DD85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -52,6 +55,7 @@
 		BEA43E4F26C0202500192604 /* OtherFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherFunc.swift; sourceTree = "<group>"; };
 		BEB483FC26D3328B0046CF94 /* THTools+Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "THTools+Environment.swift"; sourceTree = "<group>"; };
 		BEB4840A26D7281A0046CF94 /* THTools.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; name = THTools.podspec; path = ../THTools.podspec; sourceTree = "<group>"; };
+		BEC4AE09271A5F0C0097876E /* THTools+Notify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "THTools+Notify.swift"; sourceTree = "<group>"; };
 		E1130EE195B8C1FF7C345BE7 /* Pods_THTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_THTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3F0E736757E3EDFA31942F9 /* Pods-THTools.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THTools.debug.xcconfig"; path = "Target Support Files/Pods-THTools/Pods-THTools.debug.xcconfig"; sourceTree = "<group>"; };
 		FA1305CA6F112DC89E318E5E /* Pods-THTools.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THTools.release.xcconfig"; path = "Target Support Files/Pods-THTools/Pods-THTools.release.xcconfig"; sourceTree = "<group>"; };
@@ -119,8 +123,10 @@
 				BE6877A4268F725700A9DD85 /* THStorageData.swift */,
 				BE6877A5268F725700A9DD85 /* THScannerView.swift */,
 				BE6877AB268F725700A9DD85 /* THTools.swift */,
+				BEC4AE09271A5F0C0097876E /* THTools+Notify.swift */,
 				BEB483FC26D3328B0046CF94 /* THTools+Environment.swift */,
 				BE6877AC268F725700A9DD85 /* THTools+Date.swift */,
+				BE29DEC926E7B87100EBEF0B /* THTools+Hud.swift */,
 				BE6877A7268F725700A9DD85 /* THTools+Gif.swift */,
 			);
 			path = THTools;
@@ -252,6 +258,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE29DECA26E7B87100EBEF0B /* THTools+Hud.swift in Sources */,
 				BE6877AD268F725700A9DD85 /* THStorageData.swift in Sources */,
 				BE6877B2268F725700A9DD85 /* THNibViewBase.swift in Sources */,
 				BE6877AF268F725700A9DD85 /* THLogger.swift in Sources */,
@@ -259,6 +266,7 @@
 				BE6877B1268F725700A9DD85 /* THCmsHelper.swift in Sources */,
 				BEB483FD26D3328B0046CF94 /* THTools+Environment.swift in Sources */,
 				BE6877B4268F725700A9DD85 /* THTools.swift in Sources */,
+				BEC4AE0A271A5F0C0097876E /* THTools+Notify.swift in Sources */,
 				BE6877B5268F725700A9DD85 /* THTools+Date.swift in Sources */,
 				BE6877AE268F725700A9DD85 /* THScannerView.swift in Sources */,
 				BE6877B3268F725700A9DD85 /* THNetHelper.swift in Sources */,
@@ -411,6 +419,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -D THNOTIFY -D THSCANNER";
 				PRODUCT_BUNDLE_IDENTIFIER = idv.chx.THTools;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -441,6 +450,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -D THNOTIFY -D THSCANNER";
 				PRODUCT_BUNDLE_IDENTIFIER = idv.chx.THTools;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

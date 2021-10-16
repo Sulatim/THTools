@@ -2,16 +2,6 @@
 import UIKit
 
 public struct THTools {
-    public struct Logger {
-        public static var on = false {
-            didSet {
-                self.notification.showLog = on
-            }
-        }
-
-        public static let notification = THLogger.init(name: "Notification", showLog: false)
-    }
-
     public static func makeQRCodeImg(qrcode: String?, scale: CGFloat = 10) -> UIImage? {
         guard let qrcode = qrcode else {
             return nil
@@ -65,6 +55,14 @@ extension THTools {
             return verifyRegex(str: inputString, regex: "^0|09|09\\d*$")
         }
 
+        public static func isInvoiceNo(_ invNo: String?) -> Bool {
+            return verifyRegex(str: invNo, regex: "^[A-Za-z]{2}\\d{8}$")
+        }
+
+        public static func isInputingInvoiceNo(_ invNo: String?) -> Bool {
+            return verifyRegex(str: invNo, regex: "^[A-Za-z]{0,2}|[A-Za-z]{2}\\d{0,8}$")
+        }
+
         private static func verifyRegex(str: String?, regex: String) -> Bool {
             guard let str = str else {
                 return false
@@ -75,24 +73,6 @@ extension THTools {
         }
     }
 }
-
-//extension THTools {
-//    public struct Notification {
-//        public static func registerRemoteNotification() {
-//            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-//            UNUserNotificationCenter.current().requestAuthorization(
-//                options: authOptions,
-//                completionHandler: { success, error in
-//                    print(success)
-//                    THTools.Logger.notification.log("register result: \(success)")
-//                    if let err = error {
-//                        THTools.Logger.notification.log("register error: \(err.localizedDescription)")
-//                    }
-//            })
-//            UIApplication.shared.registerForRemoteNotifications()
-//        }
-//    }
-//}
 
 extension UIView {
     public func changeToFillet(radius: CGFloat) {
@@ -108,6 +88,13 @@ extension UIView {
     public func addBorder(color: UIColor, width: CGFloat) {
         self.layer.borderWidth = width
         self.layer.borderColor = color.cgColor
+    }
+
+    public func addShadow(radius: CGFloat, opacity: Float = 0.5, offset: CGSize = CGSize.zero) {
+        self.clipsToBounds = false
+        self.layer.shadowOpacity = opacity
+        self.layer.shadowRadius = radius
+        self.layer.shadowOffset = offset
     }
 
     public func findSuperView<T: UIView>(type: T.Type) -> T? {
@@ -179,6 +166,10 @@ extension UITableView {
 extension String {
     public var isNumber: Bool {
         return !isEmpty && rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil
+    }
+
+    public var isAlphabet: Bool {
+        return !isEmpty && range(of: "[^a-zA-Z]", options: .regularExpression) == nil
     }
 
     public func substring(from: Int, to: Int) -> String {
@@ -340,6 +331,12 @@ extension UINavigationController {
         }
 
         return false
+    }
+
+    public func pushVCWithoutDuplicate(_ vc: UIViewController, animated: Bool) {
+        if let vcLast = self.viewControllers.last, String(describing: type(of: vcLast)) != String(describing: type(of: vc)) {
+            self.pushViewController(vc, animated: animated)
+        }
     }
 }
 
