@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "THTools"
-  s.version      = "1.0.5"
+  s.version      = "1.0.6"
   s.summary      = "Swift little tools"
   s.description  = "私有pod測試 It's a swift little tools from TH"
 
