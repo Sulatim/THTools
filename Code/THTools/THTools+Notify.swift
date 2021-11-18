@@ -8,8 +8,14 @@
 import UIKit
 
 #if THNOTIFY
+public enum THNotifySourceType: String {
+    case launch
+    case background
+    case foreground
+}
+
 public protocol THNotifyDelegate: AnyObject {
-    func receiveNotify(fromLaunch: Bool, notification: [AnyHashable: Any])
+    func receiveNotify(notification: [AnyHashable: Any], source: THNotifySourceType)
 }
 
 public struct THNotifyConfig {
@@ -35,26 +41,30 @@ extension THTools {
             UIApplication.shared.registerForRemoteNotifications()
         }
 
-        private static func handleNotify(notification: [AnyHashable: Any]?, fromLaunch: Bool) {
+        private static func handleNotify(notification: [AnyHashable: Any]?, source: THNotifySourceType) {
             guard let info = notification else {
                 return
             }
 
             if let data = try? JSONSerialization.data(withJSONObject: info, options: .fragmentsAllowed) {
 
-                THNotifyConfig.notificationLog.log("receive notify\(fromLaunch ? " from launch": ""): \(String(data: data, encoding: .utf8) ?? "no data")")
+                THNotifyConfig.notificationLog.log("receive notify from \(source.rawValue): \(String(data: data, encoding: .utf8) ?? "no data")")
             }
 
-            THNotifyConfig.delegate?.receiveNotify(fromLaunch: true, notification: info)
+            THNotifyConfig.delegate?.receiveNotify(notification: info, source: source)
         }
 
         public static func handleLaunchNotify(launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
-            self.handleNotify(notification: launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification] as? [AnyHashable: Any], fromLaunch: true)
+            self.handleNotify(notification: launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification] as? [AnyHashable: Any], source: .launch)
         }
 
-        public static func handleReceiveNotificationResponse(center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) {
+        public static func handleReceiveNotificationResponse(response: UNNotificationResponse) {
 
-            self.handleNotify(notification: response.notification.request.content.userInfo, fromLaunch: false)
+            self.handleNotify(notification: response.notification.request.content.userInfo, source: .background)
+        }
+
+        public static func handleWillPresentNotification(notification: UNNotification) {
+            self.handleNotify(notification: notification.request.content.userInfo, source: .foreground)
         }
     }
 }
