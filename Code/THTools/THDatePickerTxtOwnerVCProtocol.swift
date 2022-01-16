@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc public protocol THDatePickerTxtOwnerVCProtocol: UIViewController, UITextFieldDelegate {
+public protocol THDatePickerTxtOwnerVCProtocol: UIViewController, UITextFieldDelegate {
     var aryPickerTxt: [UITextField?] { get set }
     var fmt: DateFormatter { get set }
     var datePicker: UIDatePicker { get set }
