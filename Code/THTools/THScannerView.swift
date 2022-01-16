@@ -132,20 +132,33 @@ public class THScannerView: UIView {
 
         self.vDetect.isHidden = false
         self.device = AVCaptureDevice.default(for: AVMediaType.video)
-        self.input = try! AVCaptureDeviceInput.init(device: self.device!)
+        guard let dev = self.device else {
+            return false
+        }
+        
+        self.input = try? AVCaptureDeviceInput.init(device: dev)
+        
+        guard let tmpInput = self.input else {
+            return false
+        }
+        
         self.output = AVCaptureMetadataOutput.init()
         self.output?.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+        
+        guard let tmpOutput = self.output else {
+            return false
+        }
 
         session = AVCaptureSession.init()
         session?.sessionPreset = .high
-        if session?.canAddInput(input!) ?? false {
-            session?.addInput(input!)
+        if session?.canAddInput(tmpInput) ?? false {
+            session?.addInput(tmpInput)
         } else {
             return false
         }
 
-        if session?.canAddOutput(output!) ?? false {
-            session?.addOutput(output!)
+        if session?.canAddOutput(tmpOutput) ?? false {
+            session?.addOutput(tmpOutput)
         } else {
             return false
         }
@@ -157,8 +170,11 @@ public class THScannerView: UIView {
 //        preview?.transform = CATransform3DMakeRotation(CGFloat(Double.pi / 2), 0, 0, 1)
         preview?.connection?.videoOrientation = .portrait
         preview?.frame = self.bounds
-
-        self.layer.addSublayer(self.preview!)
+        
+        if let prev = self.preview {
+            self.layer.addSublayer(prev)
+        }
+        
         self.session?.startRunning()
 
         return true

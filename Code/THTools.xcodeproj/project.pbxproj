@@ -22,6 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		27C05CE41655E10C432BC5E9 /* Pods_THTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1130EE195B8C1FF7C345BE7 /* Pods_THTools.framework */; };
+		410A07372793C06F0096CF54 /* THDatePickerTxtOwnerVCProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410A07362793C06F0096CF54 /* THDatePickerTxtOwnerVCProtocol.swift */; };
 		BE29DECA26E7B87100EBEF0B /* THTools+Hud.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE29DEC926E7B87100EBEF0B /* THTools+Hud.swift */; };
 		BE68779D268F71F300A9DD85 /* THTools.h in Headers */ = {isa = PBXBuildFile; fileRef = BE68779B268F71F300A9DD85 /* THTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE6877AD268F725700A9DD85 /* THStorageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6877A4268F725700A9DD85 /* THStorageData.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		410A07362793C06F0096CF54 /* THDatePickerTxtOwnerVCProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = THDatePickerTxtOwnerVCProtocol.swift; sourceTree = "<group>"; };
 		BE29DEC926E7B87100EBEF0B /* THTools+Hud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "THTools+Hud.swift"; sourceTree = "<group>"; };
 		BE687798268F71F300A9DD85 /* THTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = THTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE68779B268F71F300A9DD85 /* THTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THTools.h; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				BE6877AC268F725700A9DD85 /* THTools+Date.swift */,
 				BE29DEC926E7B87100EBEF0B /* THTools+Hud.swift */,
 				BE6877A7268F725700A9DD85 /* THTools+Gif.swift */,
+				410A07362793C06F0096CF54 /* THDatePickerTxtOwnerVCProtocol.swift */,
 			);
 			path = THTools;
 			sourceTree = "<group>";
@@ -266,6 +269,7 @@
 				BE6877AD268F725700A9DD85 /* THStorageData.swift in Sources */,
 				BE6877B2268F725700A9DD85 /* THNibViewBase.swift in Sources */,
 				BE6877AF268F725700A9DD85 /* THLogger.swift in Sources */,
+				410A07372793C06F0096CF54 /* THDatePickerTxtOwnerVCProtocol.swift in Sources */,
 				BE6877B0268F725700A9DD85 /* THTools+Gif.swift in Sources */,
 				BE6877B1268F725700A9DD85 /* THCmsHelper.swift in Sources */,
 				BEB483FD26D3328B0046CF94 /* THTools+Environment.swift in Sources */,
