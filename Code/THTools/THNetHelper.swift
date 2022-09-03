@@ -17,6 +17,15 @@ public struct THNetHelperConfig {
 
     public static var universalRequestRegulator: ((URLRequest) -> URLRequest)?
     public static var universalResultChecker: ((Any?) -> (ok: Bool, err: String))?
+    
+    fileprivate static var shared = THNetworkDelegateBridge()
+    public static var urlDelegate: URLSessionDelegate?
+}
+
+class THNetworkDelegateBridge: NSObject, URLSessionDelegate {
+    public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        THNetHelperConfig.urlDelegate?.urlSession?(session, didReceive: challenge, completionHandler: completionHandler)
+    }
 }
 
 public class THNetworkHelper<T: Decodable>: NSObject {
@@ -105,7 +114,12 @@ public class THNetworkHelper<T: Decodable>: NSObject {
             THNetHelperConfig.logger.log("start \(request.httpMethod ?? ""): \(request.url?.absoluteString ?? "unknow")")
         }
 
-        URLSession.shared.dataTask(with: request, completionHandler: { (datSrc, response, error) in
+        let session = URLSession(
+                    configuration: URLSessionConfiguration.ephemeral,
+                    delegate: THNetHelperConfig.shared,
+                    delegateQueue: nil)
+        
+        let task = session.dataTask(with: request, completionHandler: { (datSrc, response, error) in
             if let err = error {
                 DispatchQueue.main.async {
                     complete(THNetworkResponse.init(success: false, errMsg: err.localizedDescription, data: nil, rawData: datSrc, urlResponse: response, error: error))
@@ -171,7 +185,8 @@ public class THNetworkHelper<T: Decodable>: NSObject {
             DispatchQueue.main.async {
                 complete(THNetworkResponse.init(success: true, errMsg: "", data: result, rawData: data, urlResponse: response, error: error))
             }
-        }).resume()
+        })
+        task.resume()
     }
 }
 
