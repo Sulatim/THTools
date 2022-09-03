@@ -90,9 +90,6 @@ public class THNetworkHelper<T: Decodable>: NSObject {
 
             if let body = try? JSONSerialization.data(withJSONObject: post, options: .fragmentsAllowed) {
                 request.httpBody = body
-                if showPostBody {
-                    THNetHelperConfig.logger.log("post:\(String.init(data: body, encoding: String.Encoding.utf8) ?? "")")
-                }
             }
         }
 
@@ -111,7 +108,13 @@ public class THNetworkHelper<T: Decodable>: NSObject {
         }
 
         if THNetHelperConfig.showBasicLog {
-            THNetHelperConfig.logger.log("start \(request.httpMethod ?? ""): \(request.url?.absoluteString ?? "unknow")")
+            var msg = "Req \(request.url?.absoluteString ?? "unknow") \(request.httpMethod ?? "")"
+            
+            if showPostBody, let post = postBody, let body = try? JSONSerialization.data(withJSONObject: post, options: .fragmentsAllowed) {
+                msg.append("\n")
+                msg.append("Body: \(String.init(data: body, encoding: String.Encoding.utf8) ?? "")")
+            }
+            THNetHelperConfig.logger.log(msg)
         }
 
         let session = URLSession(
@@ -134,28 +137,23 @@ public class THNetworkHelper<T: Decodable>: NSObject {
                 return
             }
 
-            var strTmpLog = ""
-            if THNetHelperConfig.showBasicLog {
-                strTmpLog = "response of: \(self.strUrl)"
-            }
-
-            if self.showResponse {
-                if strTmpLog != "" {
-                    strTmpLog += "\n"
-                } else {
-                    strTmpLog += "Response Body: "
-                }
-                strTmpLog += "\(String.init(data: data, encoding: String.Encoding.utf8) ?? "")"
-            }
-            if strTmpLog != "" {
-                THNetHelperConfig.logger.log(strTmpLog)
-            }
-
             let decoder = JSONDecoder()
             let result = try? decoder.decode(T.self, from: data)
-            if result == nil {
-                if THNetHelperConfig.showBasicLog {
-                    THNetHelperConfig.logger.log("unknow data type: \(String.init(data: data, encoding: .utf8) ?? "unknow")")
+            if THNetHelperConfig.showBasicLog {
+                var strTmpLog = "Rsp \(self.strUrl)"
+                
+                if result == nil || self.showResponse {
+                    strTmpLog += "\n"
+                    if result == nil {
+                        strTmpLog += "unknow type\n"
+                    }
+                    
+                    strTmpLog += "Body Count: \(data.count)\n"
+                    strTmpLog += "Body: \(String.init(data: data, encoding: String.Encoding.utf8) ?? "")"
+                }
+                
+                if strTmpLog != "" {
+                    THNetHelperConfig.logger.log(strTmpLog)
                 }
             }
 
