@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 public protocol THDatePickerTxtOwnerVCProtocol: UIViewController, UITextFieldDelegate {
     var aryPickerTxt: [UITextField?] { get set }
