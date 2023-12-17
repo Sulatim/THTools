@@ -97,65 +97,6 @@ extension THTools {
     }
 }
 
-extension THTools {
-    public struct Environment {
-        public static var isSimulator: Bool {
-            var result = false
-            #if arch(i386) || arch(x86_64)
-            result = true
-            #endif
-
-            return result
-        }
-
-        public static func getVersion() -> String {
-            let bundle = Bundle.main
-            let mainVer = bundle.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
-            let buildVer = bundle.infoDictionary?["CFBundleVersion"] as? String ?? ""
-
-            var prefix = "V"
-            #if DEBUG
-            prefix = "D"
-            #endif
-
-            return "\(prefix)\(mainVer) (\(buildVer))"
-        }
-
-        public static func getDeviceID() -> String {
-            if let deviceID = UserDefaults.app.string(forKey: "deviceID") {
-                return deviceID
-            }
-            let strNew = UUID().uuidString
-            UserDefaults.app.setValue(strNew, forKey: "deviceID")
-            UserDefaults.app.synchronize()
-
-            return strNew
-        }
-
-        public static func getOSVersion() -> String {
-            return "\(UIDevice.current.systemVersion)"
-        }
-    }
-}
-
-extension THTools {
-    public struct Notification {
-        public static func registerRemoteNotification() {
-            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-            UNUserNotificationCenter.current().requestAuthorization(
-                options: authOptions,
-                completionHandler: { success, error in
-                    print(success)
-                    THTools.Logger.notification.log("register result: \(success)")
-                    if let err = error {
-                        THTools.Logger.notification.log("register error: \(err.localizedDescription)")
-                    }
-            })
-            UIApplication.shared.registerForRemoteNotifications()
-        }
-    }
-}
-
 extension UIView {
     public func changeToFillet(radius: CGFloat) {
         self.layer.masksToBounds = true

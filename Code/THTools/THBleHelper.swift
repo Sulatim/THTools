@@ -73,7 +73,7 @@ public extension THBleHelperDelegate where Self: UIViewController {
 
 public class THBleHelper: NSObject {
 
-    public readyToWork: Bool {
+    public var readyToWork: Bool {
         return initialOK
     }
     var initialOK: Bool = false
