@@ -16,7 +16,7 @@ public struct THNetHelperConfig {
     static let logger = THLogger.init(name: "THNetHelper")
 
     public static var universalRequestRegulator: ((URLRequest) -> URLRequest)?
-    public static var universalResultChecker: ((Any?) -> (ok: Bool, err: String))?
+    public static var universalResultChecker: THNethelperCheckResultClosure?
     
     fileprivate static var shared = THNetworkDelegateBridge()
     public static var urlDelegate: URLSessionDelegate?
@@ -27,6 +27,8 @@ class THNetworkDelegateBridge: NSObject, URLSessionDelegate {
         THNetHelperConfig.urlDelegate?.urlSession?(session, didReceive: challenge, completionHandler: completionHandler)
     }
 }
+
+public typealias THNethelperCheckResultClosure = ((Any?, Data) -> (ok: Bool, err: String?))
 
 public class THNetworkHelper<T: Decodable>: NSObject {
 
@@ -45,7 +47,7 @@ public class THNetworkHelper<T: Decodable>: NSObject {
     private var postBody: Any?
 
     public var modifyRequest: ((URLRequest) -> URLRequest)?
-    public var checkResultClosure: ((Any?) -> (ok: Bool, err: String))?
+    public var checkResultClosure: THNethelperCheckResultClosure?
 
     public init(suffix: String = "", body: Any? = nil) {
         super.init()
@@ -88,7 +90,10 @@ public class THNetworkHelper<T: Decodable>: NSObject {
             request.httpMethod = "POST"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-            if let body = try? JSONSerialization.data(withJSONObject: post, options: .fragmentsAllowed) {
+            if let p2 = postBody as? Encodable {
+                let encoder = JSONEncoder()
+                request.httpBody = try? encoder.encode(p2)
+            } else if let body = try? JSONSerialization.data(withJSONObject: post, options: .fragmentsAllowed) {
                 request.httpBody = body
             }
         }
@@ -110,9 +115,9 @@ public class THNetworkHelper<T: Decodable>: NSObject {
         if THNetHelperConfig.showBasicLog {
             var msg = "Req \(request.url?.absoluteString ?? "unknow") \(request.httpMethod ?? "")"
             
-            if showPostBody, let post = postBody, let body = try? JSONSerialization.data(withJSONObject: post, options: .fragmentsAllowed) {
+            if showPostBody, let post = request.httpBody, let bodyString = String.init(data: post, encoding: .utf8) {
                 msg.append("\n")
-                msg.append("Body: \(String.init(data: body, encoding: String.Encoding.utf8) ?? "")")
+                msg.append("Body: \(bodyString)")
             }
             THNetHelperConfig.logger.log(msg)
         }
@@ -158,16 +163,10 @@ public class THNetworkHelper<T: Decodable>: NSObject {
             }
 
             if let checker = self.checkResultClosure {
-                let rTmp = checker(result)
+                let rTmp = checker(result, data)
                 if rTmp.ok == false {
-                    if result == nil {
-                        DispatchQueue.main.async {
-                            complete(THNetworkResponse.init(success: false, errMsg: THNetworkError.parseFail.rawValue, data: nil, rawData: data, urlResponse: response, error: error))
-                        }
-                        return
-                    }
                     DispatchQueue.main.async {
-                        complete(THNetworkResponse.init(success: false, errMsg: rTmp.err, data: result, rawData: data, urlResponse: response, error: error))
+                        complete(THNetworkResponse.init(success: false, errMsg: rTmp.err ?? THNetworkError.parseFail.rawValue, data: nil, rawData: data, urlResponse: response, error: error))
                     }
                     return
                 }

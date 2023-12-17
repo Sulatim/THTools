@@ -2,11 +2,6 @@
 import UIKit
 import AVFoundation
 
-#if THSCANNER
-public struct THScannerViewConfig {
-    public static let scannerLog = THLogger.init(name: "THScanner", showLog: false)
-}
-
 public protocol THScannerViewDelegate: AnyObject {
     func scannerSouldKeepScanWhenDetectBarcode(_ barcode: String) -> Bool
     func scannerNeedToRequestAuth()
@@ -132,37 +127,25 @@ public class THScannerView: UIView {
 
         self.vDetect.isHidden = false
         self.device = AVCaptureDevice.default(for: AVMediaType.video)
-        guard let dev = self.device else {
-            return false
-        }
-        
-        self.input = try? AVCaptureDeviceInput.init(device: dev)
-        
-        guard let tmpInput = self.input else {
-            return false
-        }
-        
+        self.input = try! AVCaptureDeviceInput.init(device: self.device!)
         self.output = AVCaptureMetadataOutput.init()
         self.output?.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-        
-        guard let tmpOutput = self.output else {
-            return false
-        }
 
         session = AVCaptureSession.init()
         session?.sessionPreset = .high
-        if session?.canAddInput(tmpInput) ?? false {
-            session?.addInput(tmpInput)
+        if session?.canAddInput(input!) ?? false {
+            session?.addInput(input!)
         } else {
             return false
         }
 
-        if session?.canAddOutput(tmpOutput) ?? false {
-            session?.addOutput(tmpOutput)
+        if session?.canAddOutput(output!) ?? false {
+            session?.addOutput(output!)
         } else {
             return false
         }
 
+        // 条码类型 AVMetadataObjectTypeQRCode
         self.output?.metadataObjectTypes = self.detectBarcodeTypes
 
         self.preview = AVCaptureVideoPreviewLayer.init(session: self.session!)
@@ -170,11 +153,8 @@ public class THScannerView: UIView {
 //        preview?.transform = CATransform3DMakeRotation(CGFloat(Double.pi / 2), 0, 0, 1)
         preview?.connection?.videoOrientation = .portrait
         preview?.frame = self.bounds
-        
-        if let prev = self.preview {
-            self.layer.addSublayer(prev)
-        }
-        
+
+        self.layer.addSublayer(self.preview!)
         self.session?.startRunning()
 
         return true
@@ -214,17 +194,17 @@ extension THScannerView: AVCaptureMetadataOutputObjectsDelegate {
                     continue
                 }
                 lastErrorBarcode = detectionString
-                THScannerViewConfig.scannerLog.log("skip scan, out of bounds \(barCodeObj.bounds)")
+                THTools.Logger.scanner.log("skip scan, out of bounds \(barCodeObj.bounds)")
                 continue
             }
 
-            THScannerViewConfig.scannerLog.log("Detect: \(detectionString), Type: \(metadata.type)")
+            THTools.Logger.scanner.log("Detect: \(detectionString), Type: \(metadata.type)")
             lastErrorBarcode = nil
 
             self.lastScanInfo = (Date(), detectionString)
             self.vDetect.frame = barCodeObj.bounds
             self.bringSubviewToFront(self.vDetect)
-            THScannerViewConfig.scannerLog.log("\(barCodeObj.bounds)")
+            THTools.Logger.scanner.log("\(barCodeObj.bounds)")
 
             if self.delegate?.scannerSouldKeepScanWhenDetectBarcode(detectionString) == false {
                 self.stop()
@@ -239,4 +219,3 @@ extension THScannerView: AVCaptureMetadataOutputObjectsDelegate {
     }
 
 }
-#endif
