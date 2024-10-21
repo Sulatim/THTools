@@ -1,88 +1,83 @@
 import Foundation
 
-public class THStorageData<T> {
-    let saveKey: String
+@propertyWrapper
+public struct THStorageData<T> {
+    private let key: String
+    private var storedValue: T?
 
-    public init(_ key: String) {
-        self.saveKey = key
+    public init(key: String) {
+        self.storedValue = UserDefaults.standard.value(forKey: key) as? T
+        self.key = key
     }
 
-    private var _value: T?
-    public var value: T? {
+    public var wrappedValue: T? {
         get {
-            if _value == nil {
-                _value = (UserDefaults.app.value(forKey: self.saveKey) as? T)
-            }
-
-            return _value
+            storedValue
         }
         set {
-            _value = newValue
-            UserDefaults.app.setValue(newValue, forKey: self.saveKey)
+            storedValue = newValue
+            UserDefaults.standard.setValue(newValue, forKey: key)
         }
     }
 }
 
-public class THStorageNotNullData<T> {
-    let saveKey: String
-    let defaultValue: T
+@propertyWrapper
+public struct THNotNullStorageData<T> {
+    private let key: String
+    private let defaultValue: T
+    private var storedValue: T
 
-    public init(_ key: String, def: T) {
-        self.saveKey = key
+    public init(key: String, def: T) {
+        self.key = key
         self.defaultValue = def
+        
+        self.storedValue = (UserDefaults.standard.value(forKey: key) as? T) ?? def
     }
 
-    private var _value: T?
-    public var value: T {
+    public var wrappedValue: T {
         get {
-            if _value == nil {
-                _value = (UserDefaults.app.value(forKey: self.saveKey) as? T)
-            }
-
-            return _value ?? self.defaultValue
+            storedValue
         }
         set {
-            _value = newValue
-            UserDefaults.app.setValue(newValue, forKey: self.saveKey)
+            storedValue = newValue
+            UserDefaults.standard.setValue(newValue, forKey: key)
         }
     }
 }
 
-public class THStorageParseData<T: Codable> {
-    let saveKey: String
 
-    public init(_ key: String) {
-        self.saveKey = key
+@propertyWrapper
+public struct THCodableStorageData<T: Codable> {
+    private let key: String
+    private var storedValue: T?
+
+    public init(key: String) {
+        self.key = key
+        
+        if let data = UserDefaults.standard.data(forKey: self.key) {
+            let decoder = JSONDecoder()
+            if let obj = try? decoder.decode(T.self, from: data) {
+                storedValue = obj
+            }
+        }
     }
 
-    private var alreadyLoad = false
-    private var _value: T?
-    public var value: T? {
+    public var wrappedValue: T? {
         get {
-            if alreadyLoad {
-                return _value
-            }
-
-            if let data = UserDefaults.app.data(forKey: self.saveKey) {
-                let decoder = JSONDecoder()
-                if let obj = try? decoder.decode(T.self, from: data) {
-                    _value = obj
-                }
-            }
-            self.alreadyLoad = true
-            return _value
+            storedValue
         }
         set {
-            _value = newValue
-            self.alreadyLoad = true
-
+            storedValue = newValue
+            
             var saveData: Data?
             if let tmp = newValue {
                 let encoder = JSONEncoder()
                 saveData = try? encoder.encode(tmp)
+                print(saveData?.count)
             }
-
-            UserDefaults.app.setValue(saveData, forKey: self.saveKey)
+            
+            UserDefaults.standard.setData(saveData, key: key)
+            UserDefaults.standard.synchronize()
         }
     }
 }

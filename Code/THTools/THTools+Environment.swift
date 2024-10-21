@@ -87,3 +87,55 @@ public enum THBiometricType{
     case face
     case none
 }
+
+extension THTools.Environment {
+    public struct Version {
+        let prefix: String
+        let major: Int
+        let minor: Int
+        let build: Int
+        
+        init?(_ versionString: String) {
+//            let regex = #"(\D+)(\d+)\.(\d+)\s+\((\d+)\)"#
+//            guard let match = versionString.range(of: regex, options: .regularExpression) else { return nil }
+            guard versionString.isEmpty == false else { return nil }
+            let prefix = "\(versionString.first!)".trimmingCharacters(in: .whitespaces)
+            
+            let ary1 = versionString.split(separator: "(")
+            guard ary1.count == 2 else { return nil }
+            
+            let buildNoString = "\(ary1[1])".replacingOccurrences(of: ")", with: "").trimmingCharacters(in: .whitespaces)
+            let ary2 = "\(ary1[0])".replacingOccurrences(of: prefix, with: "").split(separator: ".")
+            guard ary2.count >= 2 else { return nil }
+            
+            let majorString = "\(ary2[0])".trimmingCharacters(in: .whitespaces)
+            let minorString = "\(ary2[1])".trimmingCharacters(in: .whitespaces)
+            
+            let major = Int(majorString) ?? 0
+            let minor = Int(minorString) ?? 0
+            let build = Int(buildNoString) ?? 0
+            self.prefix = prefix
+            self.major = major
+            self.minor = minor
+            self.build = build
+        }
+    }
+}
+
+extension THTools.Environment.Version: Comparable {
+    static public func < (lhs: THTools.Environment.Version, rhs: THTools.Environment.Version) -> Bool {
+        if lhs.major != rhs.major {
+            return lhs.major < rhs.major
+        } else if lhs.minor != rhs.minor {
+            return lhs.minor < rhs.minor
+        } else if lhs.build != rhs.build {
+            return lhs.build < rhs.build
+        } else if lhs.prefix != rhs.prefix {
+            let lhsIdx = lhs.prefix == "D" ? 0 : 10
+            let rhsIdx = rhs.prefix == "D" ? 0 : 10
+            return lhsIdx < rhsIdx
+        }
+        
+        return false
+    }
+}

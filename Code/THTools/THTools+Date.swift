@@ -97,14 +97,14 @@ extension THTools {
             let datMonthFirst = self.getFirstDateOfMonth(dat: dat)
             var weekDay = Calendar.current.component(.weekday, from: datMonthFirst)
             if weekDay == firstWeekDay {
-                return dat
+                return datMonthFirst
             } else if weekDay < firstWeekDay {
                 weekDay = weekDay + 7
             }
 
             return datMonthFirst.addingTimeInterval(TimeInterval(60 * 60 * 24 * (firstWeekDay - weekDay)))
         }
-        
+
         public static func addMonth(month: Int, from: Date) -> Date {
             var datComponents = DateComponents()
             datComponents.setValue(month, for: Calendar.Component.month)
@@ -202,5 +202,17 @@ extension Date {
     public func getDate() -> Date {
         let fmt = THTools.DateTime.fmtDate
         return fmt.date(from: fmt.string(from: self)) ?? self
+    }
+    
+    public func isToday() -> Bool {
+        return isSameDate(with: Date())
+    }
+}
+
+extension DateFormatter {
+    public static func generate(format: String) -> DateFormatter {
+        let fmt = DateFormatter()
+        fmt.dateFormat = format
+        return fmt
     }
 }

@@ -49,6 +49,44 @@ public class THLogger {
             let fName = (file.split(separator: "/").last ?? "").replacingOccurrences(of: ".swift", with: "")
             fileLine = "{\(fName).\(line)} "
         }
-        print("\(fmt.string(from: Date())) [\(self.name)] \(fileLine)\(msg)")
+        let str = "\(fmt.string(from: Date())) [\(self.name)] \(fileLine)\(msg)"
+        print(str)
+        FileLogger.shared.log(str)
+    }
+}
+
+public class FileLogger {
+    public static let shared = FileLogger()
+
+    private init() {}
+
+    public func log(_ message: String) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let currentDate = dateFormatter.string(from: Date())
+
+        let logMessage = "\(message)\n"
+
+        guard let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+
+        let logFile = documentsPath.appendingPathComponent("\(currentDate).log")
+
+        // 追加文本到日志文件
+        if FileManager.default.fileExists(atPath: logFile.path) {
+            if let fileHandle = FileHandle(forWritingAtPath: logFile.path) {
+                fileHandle.seekToEndOfFile()
+                if let data = logMessage.data(using: .utf8) {
+                    fileHandle.write(data)
+                }
+                fileHandle.closeFile()
+            }
+        } else {
+            // 文件不存在，创建文件并写入
+            do {
+                try logMessage.write(to: logFile, atomically: true, encoding: .utf8)
+            } catch {
+                print("Unable to write to log file: \(error)")
+            }
+        }
     }
 }

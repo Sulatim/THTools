@@ -24,13 +24,17 @@ public struct THNetHelperConfig {
 
 class THNetworkDelegateBridge: NSObject, URLSessionDelegate {
     public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        THNetHelperConfig.urlDelegate?.urlSession?(session, didReceive: challenge, completionHandler: completionHandler)
+        if let delegate = THNetHelperConfig.urlDelegate {
+            delegate.urlSession?(session, didReceive: challenge, completionHandler: completionHandler)
+        } else {
+            completionHandler(.performDefaultHandling, nil)
+        }
     }
 }
 
-public typealias THNethelperCheckResultClosure = ((Any?, Data) -> (ok: Bool, err: String?))
+public typealias THNethelperCheckResultClosure = ((Any?, Data) -> (ok: Bool, err: String?, shouldSkip: Bool))
 
-public class THNetworkHelper<T: Decodable>: NSObject {
+public class THNetworkHelper<T: Decodable>: NSObject, URLSessionTaskDelegate {
 
     private var hostDomain: String {
         var result = THNetHelperConfig.hostDomain
@@ -105,13 +109,14 @@ public class THNetworkHelper<T: Decodable>: NSObject {
         return request
     }
 
+    private var completion: ((THNetworkResponse<T>) -> Void)?
     public func startRequest(complete: @escaping (THNetworkResponse<T>) -> Void) {
 
         guard let request = makeRequest() else {
             complete(THNetworkResponse.init(success: false, errMsg: THNetworkError.invalidUrl.rawValue, data: nil, rawData: nil, urlResponse: nil, error: nil))
             return
         }
-
+        
         if THNetHelperConfig.showBasicLog {
             var msg = "Req \(request.url?.absoluteString ?? "unknow") \(request.httpMethod ?? "")"
             
@@ -126,6 +131,7 @@ public class THNetworkHelper<T: Decodable>: NSObject {
                     configuration: URLSessionConfiguration.ephemeral,
                     delegate: THNetHelperConfig.shared,
                     delegateQueue: nil)
+        session.configuration.timeoutIntervalForRequest = 20
         
         let task = session.dataTask(with: request, completionHandler: { (datSrc, response, error) in
             if let err = error {
@@ -153,7 +159,7 @@ public class THNetworkHelper<T: Decodable>: NSObject {
                         strTmpLog += "unknow type\n"
                     }
                     
-                    strTmpLog += "Body Count: \(data.count)\n"
+//                    strTmpLog += "Body Count: \(data.count)\n"
                     strTmpLog += "Body: \(String.init(data: data, encoding: String.Encoding.utf8) ?? "")"
                 }
                 
@@ -165,8 +171,11 @@ public class THNetworkHelper<T: Decodable>: NSObject {
             if let checker = self.checkResultClosure {
                 let rTmp = checker(result, data)
                 if rTmp.ok == false {
+                    if rTmp.shouldSkip == true {
+                        return
+                    }
                     DispatchQueue.main.async {
-                        complete(THNetworkResponse.init(success: false, errMsg: rTmp.err ?? THNetworkError.parseFail.rawValue, data: nil, rawData: data, urlResponse: response, error: error))
+                        complete(THNetworkResponse.init(success: false, errMsg: rTmp.err ?? THNetworkError.parseFail.rawValue, data: result, rawData: data, urlResponse: response, error: error))
                     }
                     return
                 }
@@ -184,6 +193,21 @@ public class THNetworkHelper<T: Decodable>: NSObject {
             }
         })
         task.resume()
+    }
+    
+    public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        if let error = error as NSError?, error.code == NSURLErrorTimedOut {
+            print("请求超时")
+            // 在这里处理超时情况，例如发出通知或调用特定的回调函数
+        }
+    }
+    
+    public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        if let delegate = THNetHelperConfig.urlDelegate {
+            delegate.urlSession?(session, didReceive: challenge, completionHandler: completionHandler)
+        } else {
+            completionHandler(.performDefaultHandling, nil)
+        }
     }
 }
 
@@ -203,3 +227,10 @@ public enum THNetworkError: String {
     case noData = "no data"
     case parseFail = "parse fail"
 }
+
+extension THTools {
+    public static func generateFormDataBody(rawData: Data) {
+        
+    }
+}
+

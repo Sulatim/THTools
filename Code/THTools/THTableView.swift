@@ -6,17 +6,16 @@
 //
 
 import UIKit
-import THTools
 
 // MARK: THCellVm
-struct THTableViewSetting {
-    struct Height {
-        static let autoHeight = UITableView.automaticDimension
-        static let calculateHeight: CGFloat = -1001
+public struct THTableViewSetting {
+    public struct Height {
+        public static let autoHeight = UITableView.automaticDimension
+        public static let calculateHeight: CGFloat = -1001
     }
 }
 
-protocol THCellVmProtocol: AnyObject {
+public protocol THCellVmProtocol: AnyObject {
     var cellType: UITableViewCell.Type? { get }
     var cellHeight: CGFloat { get }
     var storyboardId: String? { get set }
@@ -24,7 +23,7 @@ protocol THCellVmProtocol: AnyObject {
     func generateCell(tableView: UITableView, additionInfo: (indexPath: IndexPath, id: String)?) -> UITableViewCell
 }
 
-extension THCellVmProtocol {
+public extension THCellVmProtocol {
     var storyboardId: String? {
         get { return nil }
         set { }
@@ -37,6 +36,7 @@ extension THCellVmProtocol {
             
             return cell
         } else if let tp = cellType, let cls = NSClassFromString(NSStringFromClass(tp)), let cell = tableView.dequeueReusableCell(Type: cls) {
+            cell.selectionStyle = .none
             return cell
         }
         
@@ -44,14 +44,14 @@ extension THCellVmProtocol {
     }
 }
 
-protocol THCellProtocol: UITableViewCell {
+public protocol THCellProtocol: UITableViewCell {
     func setup(cellVm: THCellVmProtocol)
     func reloadCellByVmChange()
     
-    var cellVm: THCellVmProtocol? { get set }
+    var cellVm: THCellVmProtocol? { get }
 }
 
-extension THCellProtocol {
+public extension THCellProtocol {
     var cellVm: THCellVmProtocol? {
         get { return nil }
         set { }
@@ -68,15 +68,24 @@ extension THCellProtocol {
     }
 }
 
-extension UITableView {
-    func dequeueReusableCell<T: UITableViewCell>(Type: AnyClass) -> T? {
+public extension UITableView {
+    func dequeueReusableCell<T: UITableViewCell>(Type cellType: AnyClass) -> T? {
         
-        var cell = self.dequeueReusableCell(withIdentifier: Type.description())
+        let key = cellType.description()
+        var cell = self.dequeueReusableCell(withIdentifier: key)
         
         if cell == nil {
-            let nib = UINib.init(nibName: String(Type.description().split(separator: ".").last ?? ""), bundle: Bundle.init(for: Type.self))
-            self.register(nib, forCellReuseIdentifier: Type.description())
-            cell = self.dequeueReusableCell(withIdentifier: Type.description())
+            let nibName = String(key.split(separator: ".").last ?? "")
+            
+            if let nibPath = Bundle.init(for: cellType.self).path(forResource: nibName, ofType: "nib") {
+                let nib = UINib.init(nibName: String(key.split(separator: ".").last ?? ""), bundle: Bundle.init(for: cellType.self))
+                self.register(nib, forCellReuseIdentifier: key)
+            } else {
+                // 沒Nib
+                self.register(cellType.self, forCellReuseIdentifier: key)
+            }
+            
+            cell = self.dequeueReusableCell(withIdentifier: key)
         }
         cell?.selectionStyle = .none
         
@@ -85,7 +94,7 @@ extension UITableView {
 }
 
 // MARK: Section
-protocol THSectionVmProtocol {
+public protocol THSectionVmProtocol {
     var cellVmArray: [THCellVmProtocol] { get set }
     var displayCellVmArray: [THCellVmProtocol] { get set }
     
@@ -96,7 +105,7 @@ protocol THSectionVmProtocol {
     var footerHeight: CGFloat { get }
 }
 
-extension THSectionVmProtocol {
+public extension THSectionVmProtocol {
     var displayCellVmArray: [THCellVmProtocol] {
         get { cellVmArray }
         set { cellVmArray = newValue }
@@ -122,19 +131,19 @@ extension THSectionVmProtocol {
 }
 
 // MARK: Section Header/Footer
-protocol THSectionHeaderFooterVmProtocol {
+public protocol THSectionHeaderFooterVmProtocol {
     var view: UIView? { get }
     var height: CGFloat { get }
 }
 
-extension THSectionHeaderFooterVmProtocol {
+public extension THSectionHeaderFooterVmProtocol {
     var height: CGFloat {
         return self.view?.frame.height ?? 0
     }
 }
 
 // MARK: Section owner
-protocol THSectionVmArrayOwner {
+public protocol THSectionVmArrayOwner {
     var sectionVmArray: [THSectionVmProtocol] { get }
     
     func sectionVmArrayOwnerGetSectionsCount() -> Int
@@ -149,7 +158,7 @@ protocol THSectionVmArrayOwner {
     func sectionVmArrayOwnerCalculateCellHeight(at indexPath: IndexPath, cellVm: THCellVmProtocol) -> CGFloat
 }
 
-extension THSectionVmArrayOwner {
+public extension THSectionVmArrayOwner {
     func sectionVmArrayOwnerHandleUnknowCellHeight() -> CGFloat {
         return .leastNormalMagnitude
     }
@@ -211,27 +220,27 @@ extension THSectionVmArrayOwner {
     }
 }
 
-class THBasicSectionVm: THSectionVmProtocol {
-    var cellVmArray: [THCellVmProtocol] = []
+public class THBasicSectionVm: THSectionVmProtocol {
+    public var cellVmArray: [THCellVmProtocol] = []
     
-    init() {}
+    public init() {}
     
-    init(_ cellVm: THCellVmProtocol) {
+    public init(_ cellVm: THCellVmProtocol) {
         cellVmArray = [cellVm]
     }
     
-    init(_ cellVms: [THCellVmProtocol]) {
+    public init(_ cellVms: [THCellVmProtocol]) {
         cellVmArray = cellVms
     }
 }
 
-class THSpaceCellVm: THCellVmProtocol {
-    var cellType: UITableViewCell.Type?
+public class THSpaceCellVm: THCellVmProtocol {
+    public var cellType: UITableViewCell.Type?
     
-    private(set) var cellHeight: CGFloat
+    public var cellHeight: CGFloat
     private var bgColor: UIColor?
     
-    init(height: CGFloat, bgColor: UIColor? = nil) {
+    public init(height: CGFloat, bgColor: UIColor? = nil) {
         self.cellHeight = height
         self.bgColor = bgColor
     }
